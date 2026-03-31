@@ -9,6 +9,14 @@
         <h1>Đăng nhập học sinh</h1>
         <p class="muted">Tài khoản mặc định: account và mật khẩu do nhà trường cấp.</p>
 
+        <div class="example-box">
+          <p><strong>Ví dụ cách đăng nhập:</strong></p>
+          <p>Tên học sinh: <strong>Nguyễn Văn A</strong></p>
+          <p>Account mặc định: <strong>NguyenVanA</strong></p>
+          <p>Mật khẩu mặc định: <strong>NguyenVanA</strong></p>
+          <p class="example-note">Lưu ý: Nếu đã đổi mật khẩu trước đó thì dùng mật khẩu mới, không dùng mật khẩu mặc định.</p>
+        </div>
+
         <% if (error) { %>
         <p class="alert"><%= error %></p>
         <% } %>
@@ -48,6 +56,7 @@
         <ol>
           <li>Nhập <strong>account</strong> do nhà trường cấp.</li>
           <li>Nhập mật khẩu mặc định.</li>
+          <li>Ví dụ: Nguyễn Văn A - account là <strong>NguyenVanA</strong>, mật khẩu mặc định là <strong>NguyenVanA</strong>.</li>
           <li>Sau khi đăng nhập thành công, hệ thống sẽ yêu cầu đổi mật khẩu mới.</li>
           <li>Nếu đăng nhập lỗi, liên hệ Zalo <strong>0794674715</strong> (Nguyễn Cường).</li>
         </ol>

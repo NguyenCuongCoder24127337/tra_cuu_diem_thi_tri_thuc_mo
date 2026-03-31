@@ -21,7 +21,7 @@
           <thead>
             <tr>
               <th>Môn học</th>
-              <th>Diem</th>
+              <th>Điểm</th>
             </tr>
           </thead>
           <tbody>
@@ -41,13 +41,20 @@
           <% for (const subject of subjects) { %>
           <article class="leader-item">
             <h3><%= subjectLabels[subject] %></h3>
-            <ol>
-              <% const rows = top3BySubject[subject] || []; %>
-              <% if (!rows.length) { %>
-              <li>Chưa có dữ liệu</li>
-              <% } %>
-              <% rows.forEach((row) => { %>
-              <li><%= row.fullName %> - <%= row.className %> (<%= Number(row.score || 0).toFixed(2) %>)</li>
+            <% const rows = top3BySubject[subject] || []; %>
+            <% if (!rows.length) { %>
+            <p class="leader-empty">Chưa có dữ liệu</p>
+            <% } %>
+            <ol class="leader-list">
+              <% rows.forEach((row, index) => { %>
+              <li class="leader-row">
+                <span class="leader-rank">#<%= index + 1 %></span>
+                <div class="leader-meta">
+                  <p class="leader-name"><%= row.fullName %></p>
+                  <p class="leader-class"><%= row.className %></p>
+                </div>
+                <span class="leader-score"><%= Number(row.score || 0).toFixed(2) %></span>
+              </li>
               <% }); %>
             </ol>
           </article>
