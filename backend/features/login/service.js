@@ -9,8 +9,14 @@ async function login(account, password) {
   }
 
   const matched = await bcrypt.compare(password, student.password_hash || "");
+  const accountValue = String(student.account || student.username || "");
 
-  if (!matched) {
+  // Compatibility path: some legacy rows may have inconsistent hashes.
+  // Only allow default credential fallback on first-login accounts.
+  const allowLegacyDefaultLogin =
+    !matched && !!student.must_change_password && password === accountValue;
+
+  if (!matched && !allowLegacyDefaultLogin) {
     return null;
   }
 
