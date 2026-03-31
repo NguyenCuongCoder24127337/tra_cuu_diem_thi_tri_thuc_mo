@@ -32,11 +32,19 @@ router.post("/login", async (req, res) => {
 
     req.session.user = student;
 
-    if (student.mustChangePassword) {
-      return res.redirect("/change-password");
-    }
+    return req.session.save((saveError) => {
+      if (saveError) {
+        return res.status(500).render("login/login", {
+          error: "Khong the luu phien dang nhap. Vui long thu lai.",
+        });
+      }
 
-    return res.redirect("/dashboard");
+      if (student.mustChangePassword) {
+        return res.redirect("/change-password");
+      }
+
+      return res.redirect("/dashboard");
+    });
   } catch (error) {
     return res.status(500).render("login/login", {
       error: "Có lỗi hệ thống. Vui lòng thử lại.",

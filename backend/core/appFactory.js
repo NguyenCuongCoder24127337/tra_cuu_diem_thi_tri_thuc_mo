@@ -4,6 +4,11 @@ const session = require("express-session");
 function createApp({ viewsPath, staticPath, sessionSecret, sessionStore, isProduction }) {
   const app = express();
 
+  // Render/Reverse proxy: required so secure cookies can be set correctly.
+  if (isProduction) {
+    app.set("trust proxy", 1);
+  }
+
   app.set("view engine", "ejs");
   app.set("views", viewsPath);
 

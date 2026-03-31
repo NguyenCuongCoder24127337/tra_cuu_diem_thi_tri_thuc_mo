@@ -28,7 +28,15 @@ router.post("/change-password", requireLogin, async (req, res) => {
     await service.changePassword(req.session.user.id, newPassword);
     req.session.user.mustChangePassword = false;
 
-    return res.redirect("/dashboard");
+    return req.session.save((saveError) => {
+      if (saveError) {
+        return res.status(500).render("change-password/change-password", {
+          error: "Khong the cap nhat phien dang nhap. Vui long thu lai.",
+        });
+      }
+
+      return res.redirect("/dashboard");
+    });
   } catch (error) {
     return res.status(500).render("change-password/change-password", {
       error: "Khong the doi mat khau luc nay. Vui long thu lai.",
