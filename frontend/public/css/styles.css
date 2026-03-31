@@ -464,9 +464,12 @@ td {
 
 .leader-row {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 10px;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "rank score"
+    "meta meta";
+  align-items: start;
+  gap: 6px 10px;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #f0ded0;
@@ -474,6 +477,7 @@ td {
 }
 
 .leader-rank {
+  grid-area: rank;
   display: inline-grid;
   place-items: center;
   min-width: 38px;
@@ -486,6 +490,7 @@ td {
 }
 
 .leader-meta {
+  grid-area: meta;
   min-width: 0;
 }
 
@@ -494,18 +499,22 @@ td {
   font-size: 0.96rem;
   font-weight: 700;
   color: #2d2119;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .leader-class {
   margin: 2px 0 0;
   font-size: 0.84rem;
   color: #7f6451;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .leader-score {
+  grid-area: score;
+  justify-self: end;
   min-width: 58px;
   text-align: right;
   font-size: 1rem;
