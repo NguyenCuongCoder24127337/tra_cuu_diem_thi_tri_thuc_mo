@@ -5,14 +5,18 @@ async function findByField(field, operator, value) {
     .from("result")
     .select("id, full_name, class_name, dob, username, account, password_hash, must_change_password")
     [operator](field, value)
-    .limit(1)
-    .maybeSingle();
+    .order("created_at", { ascending: false })
+    .limit(1);
 
   if (error) {
     throw error;
   }
 
-  return data;
+  if (!Array.isArray(data) || data.length === 0) {
+    return null;
+  }
+
+  return data[0];
 }
 
 async function findStudentByAccountOrUsername(accountOrUsername) {
