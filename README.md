@@ -41,10 +41,16 @@ npm install
 Tao file backend/.env theo mau backend/.env.example:
 ```env
 PORT=3000
+NODE_ENV=development
 SESSION_SECRET=change-me-in-production
+REDIS_URL=redis://localhost:6379
 SUPABASE_URL=https://your-project-id.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
+
+Luu y production:
+- He thong su dung Redis lam session store de phuc vu nhieu nguoi dung on dinh.
+- Bat buoc khai bao REDIS_URL tren server deploy.
 
 Tai lieu route API xem tai: backend/API.md
 

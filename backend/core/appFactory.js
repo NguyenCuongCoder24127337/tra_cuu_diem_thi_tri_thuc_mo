@@ -1,7 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 
-function createApp({ viewsPath, staticPath, sessionSecret }) {
+function createApp({ viewsPath, staticPath, sessionSecret, sessionStore, isProduction }) {
   const app = express();
 
   app.set("view engine", "ejs");
@@ -13,10 +13,13 @@ function createApp({ viewsPath, staticPath, sessionSecret }) {
   app.use(
     session({
       secret: sessionSecret,
+      store: sessionStore,
       resave: false,
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
+        sameSite: "lax",
+        secure: !!isProduction,
         maxAge: 1000 * 60 * 60 * 24,
       },
     })
