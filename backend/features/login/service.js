@@ -8,15 +8,28 @@ async function login(account, password) {
     return null;
   }
 
-  const matched = await bcrypt.compare(password, student.password_hash || "");
   const accountValue = String(student.account || student.username || "");
+  let isPasswordValid = false;
 
-  // Compatibility path: some legacy rows may have inconsistent hashes.
-  // Only allow default credential fallback on first-login accounts.
-  const allowLegacyDefaultLogin =
-    !matched && !!student.must_change_password && password === accountValue;
+  // Try bcrypt verification if hash exists
+  if (student.password_hash) {
+    try {
+      isPasswordValid = await bcrypt.compare(password, student.password_hash);
+    } catch (err) {
+      // Hash format is invalid/corrupted, treat as no hash
+      console.warn("Invalid password_hash format for", accountValue);
+      isPasswordValid = false;
+    }
+  }
 
-  if (!matched && !allowLegacyDefaultLogin) {
+  // Fallback: if no valid bcrypt hash or hash verification failed,
+  // allow default credential (password = account) for first-time users
+  const allowDefaultLogin =
+    !isPasswordValid &&
+    !!student.must_change_password &&
+    password === accountValue;
+
+  if (!isPasswordValid && !allowDefaultLogin) {
     return null;
   }
 
