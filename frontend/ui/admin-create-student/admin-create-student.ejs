@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <%- include("../shared/head", { title: "Quản trị tạo tài khoản" }) %>
+  <body>
+    <%- include("../shared/header", { user: null }) %>
+
+    <main class="container auth-wrap">
+      <section class="auth-card">
+        <h1>Tạo tài khoản học sinh</h1>
+        <p class="muted">Hệ thống tự động tạo username/account theo HọTênKhôngDấu. Mật khẩu mặc định bằng account.</p>
+
+        <% if (error) { %>
+        <p class="alert"><%= error %></p>
+        <% } %>
+
+        <% if (created) { %>
+        <p class="alert" style="background:#e8f8ec;border-color:#9ed4ad;color:#1d6b34;">
+          Tạo thành công: <strong><%= created.fullName %></strong> - <strong><%= created.className %></strong><br/>
+          Username: <strong><%= created.username %></strong><br/>
+          Account: <strong><%= created.account %></strong><br/>
+          Mật khẩu mặc định: <strong><%= created.defaultPassword %></strong>
+        </p>
+        <% } %>
+
+        <form action="/admin/create-student" method="post" class="form-grid">
+          <label>
+            Họ và tên
+            <input type="text" name="fullName" required />
+          </label>
+
+          <label>
+            Lớp
+            <input type="text" name="className" placeholder="12a15" required />
+          </label>
+
+          <label>
+            Ngày sinh
+            <input type="date" name="dob" />
+          </label>
+
+          <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

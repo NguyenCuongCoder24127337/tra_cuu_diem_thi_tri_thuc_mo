@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <%- include("../shared/head", { title: "Bảng điểm" }) %>
+  <body>
+    <%- include("../shared/header", { user: student }) %>
+
+    <main class="container dashboard-wrap">
+      <section class="profile card">
+        <h1>Thông tin học sinh</h1>
+        <div class="profile-grid">
+          <p><strong>Họ và tên:</strong> <%= student.fullName %></p>
+          <p><strong>Lớp:</strong> <%= student.className %></p>
+          <p><strong>Ngày sinh:</strong> <%= student.dob || "Chưa cập nhật" %></p>
+          <p><strong>Account:</strong> <%= student.account || student.username %></p>
+        </div>
+      </section>
+
+      <section class="scores card">
+        <h2>Điểm từng môn</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Môn học</th>
+              <th>Diem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (const subject of subjects) { %>
+            <tr>
+              <td><%= subjectLabels[subject] %></td>
+              <td><%= Number(scores[subject] || 0).toFixed(2) %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="leaderboard card">
+        <h2>Top 3 điểm cao nhất theo từng môn</h2>
+        <div class="leader-grid">
+          <% for (const subject of subjects) { %>
+          <article class="leader-item">
+            <h3><%= subjectLabels[subject] %></h3>
+            <ol>
+              <% const rows = top3BySubject[subject] || []; %>
+              <% if (!rows.length) { %>
+              <li>Chưa có dữ liệu</li>
+              <% } %>
+              <% rows.forEach((row) => { %>
+              <li><%= row.fullName %> - <%= row.className %> (<%= Number(row.score || 0).toFixed(2) %>)</li>
+              <% }); %>
+            </ol>
+          </article>
+          <% } %>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

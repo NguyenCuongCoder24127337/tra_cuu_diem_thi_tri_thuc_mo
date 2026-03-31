@@ -1,0 +1,20 @@
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="/">
+      <img src="/logo_web.jpg" alt="Logo trường" class="brand-logo" />
+      <span class="brand-text">Tra Cứu Điểm Thi</span>
+    </a>
+
+    <nav class="menu">
+      <% if (user) { %>
+      <a href="/dashboard">Bảng điểm</a>
+      <form action="/logout" method="post">
+        <button type="submit" class="btn btn-outline">Đăng xuất</button>
+      </form>
+      <% } else { %>
+      <a href="/admin/create-student">Tạo tài khoản</a>
+      <a href="/login" class="btn btn-primary">Đăng nhập</a>
+      <% } %>
+    </nav>
+  </div>
+</header>

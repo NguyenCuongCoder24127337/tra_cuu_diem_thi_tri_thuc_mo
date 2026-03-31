@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <%- include("../shared/head", { title: "Đăng nhập" }) %>
+  <body>
+    <%- include("../shared/header", { user: null }) %>
+
+    <main class="container auth-wrap">
+      <section class="auth-card">
+        <h1>Đăng nhập học sinh</h1>
+        <p class="muted">Tài khoản mặc định: account và mật khẩu do nhà trường cấp.</p>
+
+        <% if (error) { %>
+        <p class="alert"><%= error %></p>
+        <% } %>
+
+        <form action="/login" method="post" class="form-grid">
+          <label>
+            Account
+            <input type="text" name="account" required />
+          </label>
+
+          <label>
+            Mật khẩu
+            <input type="password" name="password" required />
+          </label>
+
+          <button type="submit" class="btn btn-primary">Đăng nhập</button>
+        </form>
+
+        <% if (error) { %>
+        <p class="help-inline">
+          Nếu không đăng nhập được, vui lòng liên hệ Zalo
+          <strong>0794674715</strong> (Nguyễn Cường) để được hỗ trợ.
+        </p>
+        <% } %>
+      </section>
+    </main>
+
+    <aside class="support-corner" aria-label="Hỗ trợ đăng nhập">
+      <p><strong>Hỗ trợ đăng nhập</strong></p>
+      <p>Zalo: <strong>0794674715</strong></p>
+      <p>Người hỗ trợ: Nguyễn Cường</p>
+    </aside>
+
+    <div class="popup-overlay" id="firstLoginPopup" aria-hidden="true">
+      <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+        <h2 id="popupTitle">Hướng dẫn đăng nhập lần đầu</h2>
+        <ol>
+          <li>Nhập <strong>account</strong> do nhà trường cấp.</li>
+          <li>Nhập mật khẩu mặc định.</li>
+          <li>Sau khi đăng nhập thành công, hệ thống sẽ yêu cầu đổi mật khẩu mới.</li>
+          <li>Nếu đăng nhập lỗi, liên hệ Zalo <strong>0794674715</strong> (Nguyễn Cường).</li>
+        </ol>
+        <button type="button" class="btn btn-primary" id="closePopup">Tôi đã hiểu</button>
+      </section>
+    </div>
+
+    <script>
+      (function () {
+        const popup = document.getElementById("firstLoginPopup");
+        const closeBtn = document.getElementById("closePopup");
+        const storageKey = "first-login-guide-seen";
+
+        if (!popup || !closeBtn) {
+          return;
+        }
+
+        const seen = sessionStorage.getItem(storageKey);
+        if (!seen) {
+          popup.classList.add("open");
+          popup.setAttribute("aria-hidden", "false");
+        }
+
+        closeBtn.addEventListener("click", function () {
+          popup.classList.remove("open");
+          popup.setAttribute("aria-hidden", "true");
+          sessionStorage.setItem(storageKey, "1");
+        });
+      })();
+    </script>
+  </body>
+</html>

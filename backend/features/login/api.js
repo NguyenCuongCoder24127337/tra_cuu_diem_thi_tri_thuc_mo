@@ -1,0 +1,47 @@
+const express = require("express");
+const service = require("./service");
+
+const router = express.Router();
+
+router.get("/login", (req, res) => {
+  if (req.session.user) {
+    return res.redirect("/dashboard");
+  }
+
+  return res.render("login/login", { error: null });
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    const account = String(req.body.account || req.body.username || "").trim();
+    const password = String(req.body.password || "");
+
+    if (!account || !password) {
+      return res.status(400).render("login/login", {
+        error: "Vui lòng nhập đầy đủ account và mật khẩu.",
+      });
+    }
+
+    const student = await service.login(account, password);
+
+    if (!student) {
+      return res.status(401).render("login/login", {
+        error: "Thông tin đăng nhập không đúng.",
+      });
+    }
+
+    req.session.user = student;
+
+    if (student.mustChangePassword) {
+      return res.redirect("/change-password");
+    }
+
+    return res.redirect("/dashboard");
+  } catch (error) {
+    return res.status(500).render("login/login", {
+      error: "Có lỗi hệ thống. Vui lòng thử lại.",
+    });
+  }
+});
+
+module.exports = router;

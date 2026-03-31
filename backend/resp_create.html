@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin tao tai khoan</title>
+  <link rel="icon" type="image/jpeg" href="/logo_web.jpg" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+  <body>
+    <header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="/">
+      <img src="/logo_web.jpg" alt="Logo" class="brand-logo" />
+      <span class="brand-text">Tra Cuu Diem Thi</span>
+    </a>
+
+    <nav class="menu">
+      
+      <a href="/admin/create-student">Tao tai khoan</a>
+      <a href="/login" class="btn btn-primary">Dang nhap</a>
+      
+    </nav>
+  </div>
+</header>
+
+
+    <main class="container auth-wrap">
+      <section class="auth-card">
+        <h1>Tao tai khoan hoc sinh</h1>
+        <p class="muted">He thong tu dong tao username theo HoTenKhongDau + Lop. Password mac dinh bang username.</p>
+
+        
+        <p class="alert">Vui long nhap day du ho ten va lop.</p>
+        
+
+        
+
+        <form action="/admin/create-student" method="post" class="form-grid">
+          <label>
+            Ho va ten
+            <input type="text" name="fullName" required />
+          </label>
+
+          <label>
+            Lop
+            <input type="text" name="className" placeholder="12a15" required />
+          </label>
+
+          <label>
+            Ngay sinh
+            <input type="date" name="dob" />
+          </label>
+
+          <button type="submit" class="btn btn-primary">Tao tai khoan</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
