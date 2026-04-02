@@ -190,11 +190,103 @@ h4,
   line-height: 1.72;
 }
 
-.info-grid {
+.home-hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
+  gap: 26px;
+  align-items: center;
+}
+
+.hero-copy {
+  max-width: 760px;
+}
+
+.wish-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin: 30px auto 56px;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.wish-strip span {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 248, 241, 0.12);
+  border: 1px solid rgba(255, 233, 217, 0.22);
+  color: #fff;
+  font-size: 0.96rem;
+  line-height: 1.5;
+  backdrop-filter: blur(6px);
+}
+
+.countdown-card {
+  justify-self: end;
+  width: min(360px, 100%);
+  padding: 22px 20px;
+  border-radius: 20px;
+  background: rgba(255, 250, 243, 0.18);
+  border: 1px solid rgba(255, 233, 217, 0.22);
+  box-shadow: 0 18px 40px rgba(31, 20, 10, 0.2);
+  color: #fff;
+  backdrop-filter: blur(14px);
+}
+
+.countdown-kicker,
+.countdown-label,
+.countdown-note {
+  margin: 0;
+}
+
+.countdown-kicker {
+  font-size: 0.86rem;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: rgba(255, 231, 207, 0.88);
+}
+
+.countdown-card h2 {
+  margin: 8px 0 6px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.countdown-label {
+  color: rgba(255, 243, 231, 0.9);
+  font-size: 0.95rem;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 12px;
+}
+
+.countdown-grid div {
+  padding: 12px 8px;
+  border-radius: 14px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.countdown-grid strong {
+  display: block;
+  font-size: clamp(1.2rem, 2.8vw, 1.8rem);
+  line-height: 1;
+}
+
+.countdown-grid span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: rgba(255, 244, 235, 0.9);
+}
+
+.countdown-note {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(255, 242, 231, 0.94);
 }
 
 .card {
@@ -565,6 +657,25 @@ td {
 
   .hero-content {
     padding: 52px 0;
+  }
+
+  .home-hero-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .wish-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .countdown-card {
+    justify-self: start;
+    width: 100%;
+    padding: 18px 16px;
+  }
+
+  .countdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .hero-content h1 {

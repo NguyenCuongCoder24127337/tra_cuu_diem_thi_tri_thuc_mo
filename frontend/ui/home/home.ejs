@@ -8,31 +8,74 @@
       <section class="hero">
         <img src="/homepage_web.jpg" alt="Ảnh nền trang tra cứu điểm" class="hero-bg" />
         <div class="hero-overlay"></div>
-        <div class="container hero-content">
-          <p class="kicker">Hệ thống tra cứu điểm thi học sinh</p>
-          <h1>Theo dõi kết quả học tập nhanh, rõ ràng và trực quan</h1>
-          <p>
-            Học sinh đăng nhập bằng account đã được nhà trường tạo sẵn.
-            Ở lần đăng nhập đầu tiên, hệ thống sẽ yêu cầu đổi mật khẩu để bảo mật tài khoản.
-          </p>
-          <a href="/login" class="btn btn-primary btn-large">Vào trang đăng nhập</a>
+        <div class="container hero-content home-hero-layout">
+          <div class="hero-copy">
+            <p class="kicker">Hệ thống tra cứu điểm thi học sinh</p>
+            <h1>Theo dõi kết quả học tập nhanh, rõ ràng và trực quan</h1>
+            <p>
+              Học sinh đăng nhập bằng account đã được nhà trường tạo sẵn.
+              Ở lần đăng nhập đầu tiên, hệ thống sẽ yêu cầu đổi mật khẩu để bảo mật tài khoản.
+            </p>
+
+            <div class="wish-strip" aria-label="Lời chúc thi tốt">
+              <span>Chúc các em bình tĩnh, tự tin và làm bài thật tốt.</span>
+              <span>Chúc các em đạt kết quả như mong muốn trong kỳ thi sắp tới.</span>
+              <span>Vững tâm ôn luyện, tự tin bước vào kỳ thi đại học.</span>
+            </div>
+
+            <a href="/login" class="btn btn-primary btn-large">Vào trang đăng nhập</a>
+          </div>
+
+          <aside class="countdown-card" aria-label="Đếm ngược đến kỳ thi đại học">
+            <p class="countdown-kicker">Đếm ngược đến kỳ thi đại học</p>
+            <h2>11 / 6 / 2026</h2>
+            <p class="countdown-label">Còn lại</p>
+            <div class="countdown-grid" id="countdownGrid">
+              <div><strong id="daysLeft">0</strong><span>Ngày</span></div>
+              <div><strong id="hoursLeft">0</strong><span>Giờ</span></div>
+              <div><strong id="minutesLeft">0</strong><span>Phút</span></div>
+              <div><strong id="secondsLeft">0</strong><span>Giây</span></div>
+            </div>
+            <p class="countdown-note">Chúc các em thi thật tốt và đạt kết quả cao.</p>
+          </aside>
         </div>
       </section>
-
-      <section class="container info-grid">
-        <article class="card">
-          <h3>Đầy đủ 5 môn học</h3>
-          <p>Toán, Lý, Hóa, Tiếng Anh, Văn. Môn nào chưa có dữ liệu sẽ tự động hiển thị là 0.</p>
-        </article>
-        <article class="card">
-          <h3>Thông tin cá nhân rõ ràng</h3>
-          <p>Hiển thị đầy đủ họ tên, lớp, ngày sinh, account và kết quả chi tiết từng môn của học sinh.</p>
-        </article>
-        <article class="card">
-          <h3>Top 3 theo từng môn</h3>
-          <p>Bảng xếp hạng 3 học sinh có điểm cao nhất ở mỗi môn giúp đối chiếu và theo dõi thành tích.</p>
-        </article>
-      </section>
     </main>
+
+    <script>
+      (function () {
+        const targetDate = new Date(2026, 5, 11, 0, 0, 0).getTime();
+        const daysEl = document.getElementById("daysLeft");
+        const hoursEl = document.getElementById("hoursLeft");
+        const minutesEl = document.getElementById("minutesLeft");
+        const secondsEl = document.getElementById("secondsLeft");
+
+        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) {
+          return;
+        }
+
+        function pad(value) {
+          return String(value).padStart(2, "0");
+        }
+
+        function updateCountdown() {
+          const now = Date.now();
+          const diff = Math.max(0, targetDate - now);
+
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((diff / (1000 * 60)) % 60);
+          const seconds = Math.floor((diff / 1000) % 60);
+
+          daysEl.textContent = days;
+          hoursEl.textContent = pad(hours);
+          minutesEl.textContent = pad(minutes);
+          secondsEl.textContent = pad(seconds);
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      })();
+    </script>
   </body>
 </html>
