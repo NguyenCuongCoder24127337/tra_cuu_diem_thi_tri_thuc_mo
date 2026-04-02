@@ -28,7 +28,7 @@
         <p class="alert"><%= error %></p>
         <% } %>
 
-        <form action="/login" method="post" class="form-grid">
+        <form action="/login" method="post" class="form-grid" id="loginForm">
           <label>
             Account
             <input type="text" name="account" required />
@@ -68,30 +68,47 @@
 
     <script>
       (function () {
+        const form = document.getElementById("loginForm");
         const popup = document.getElementById("firstLoginPopup");
         const closeBtn = document.getElementById("closePopup");
+        let waitingSubmit = false;
 
-        if (!popup || !closeBtn) {
+        if (!form || !popup || !closeBtn) {
           return;
         }
 
-        // Show popup only if no error (first-time login, not failed login)
-        const errorElement = document.querySelector(".alert:not(.alert-success)");
-        if (!errorElement) {
+        function openPopup() {
           popup.classList.add("open");
           popup.setAttribute("aria-hidden", "false");
         }
 
-        closeBtn.addEventListener("click", function () {
+        function closePopup() {
           popup.classList.remove("open");
           popup.setAttribute("aria-hidden", "true");
+        }
+
+        form.addEventListener("submit", function (e) {
+          if (waitingSubmit) {
+            return;
+          }
+          e.preventDefault();
+          waitingSubmit = true;
+          openPopup();
+        });
+
+        closeBtn.addEventListener("click", function () {
+          closePopup();
+          if (waitingSubmit) {
+            waitingSubmit = false;
+            form.submit();
+          }
         });
 
         // Close on overlay click
         popup.addEventListener("click", function (e) {
           if (e.target === popup) {
-            popup.classList.remove("open");
-            popup.setAttribute("aria-hidden", "true");
+            closePopup();
+            waitingSubmit = false;
           }
         });
       })();
