@@ -6,9 +6,8 @@ const router = express.Router();
 async function handleSubmitFeedback(req, res) {
   try {
     const fullName = String(req.body.fullName || "").trim();
+    const className = String(req.body.className || "").trim();
     const email = String(req.body.email || "").trim();
-    const phone = String(req.body.phone || "").trim();
-    const title = String(req.body.title || "Góp ý phát triển web").trim();
     const message = String(req.body.message || "").trim();
 
     if (!message) {
@@ -20,9 +19,8 @@ async function handleSubmitFeedback(req, res) {
 
     const suggestion = await service.submitSuggestion({
       fullName,
+      className,
       email,
-      phone,
-      title,
       message,
     });
 

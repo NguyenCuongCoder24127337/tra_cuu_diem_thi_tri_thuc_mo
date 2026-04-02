@@ -1,15 +1,14 @@
 const supabase = require("../../core/supabaseClient");
 
-async function insertSuggestion({ fullName, email, phone, title, message }) {
+async function insertSuggestion({ fullName, className, email, message }) {
   const { data, error } = await supabase
     .from("thu_gop_y")
     .insert({
       full_name: fullName,
+      class_name: className,
       email,
-      phone,
-      title,
       message,
-      status: "new",
+      status: "pending",
     })
     .select();
 

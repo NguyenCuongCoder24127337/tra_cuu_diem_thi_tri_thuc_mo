@@ -80,7 +80,6 @@
         const className = document.getElementById("feedbackClass").value;
         const email = document.getElementById("feedbackEmail").value;
         const message = document.getElementById("feedbackMessage").value;
-        const title = "Góp ý phát triển web";
 
         try {
           const response = await fetch("/api/feedback/submit", {
@@ -90,7 +89,6 @@
               fullName,
               className,
               email,
-              title,
               message,
             }),
           });

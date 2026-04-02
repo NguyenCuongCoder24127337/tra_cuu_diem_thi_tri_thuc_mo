@@ -1,6 +1,6 @@
 const model = require("./model");
 
-function validateSuggestion(fullName, title, message) {
+function validateSuggestion(message) {
   const errors = [];
 
   if (!message || message.trim().length < 10) {
@@ -10,17 +10,16 @@ function validateSuggestion(fullName, title, message) {
   return errors.length > 0 ? errors.join(" ") : null;
 }
 
-async function submitSuggestion({ fullName, email, phone, title, message }) {
-  const error = validateSuggestion(fullName, title, message);
+async function submitSuggestion({ fullName, className, email, message }) {
+  const error = validateSuggestion(message);
   if (error) {
     throw new Error(error);
   }
 
   return await model.insertSuggestion({
     fullName: fullName?.trim() || "Ẩn danh",
+    className: className?.trim() || null,
     email: email?.trim() || null,
-    phone: phone?.trim() || null,
-    title: title?.trim() || "Góp ý phát triển web",
     message: message.trim(),
   });
 }
