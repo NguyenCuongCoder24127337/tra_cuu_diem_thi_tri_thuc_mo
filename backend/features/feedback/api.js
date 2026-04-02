@@ -3,19 +3,18 @@ const service = require("./service");
 
 const router = express.Router();
 
-// POST: Submit new suggestion
-router.post("/api/feedback/submit", async (req, res) => {
+async function handleSubmitFeedback(req, res) {
   try {
     const fullName = String(req.body.fullName || "").trim();
     const email = String(req.body.email || "").trim();
     const phone = String(req.body.phone || "").trim();
-    const title = String(req.body.title || "").trim();
+    const title = String(req.body.title || "Góp ý phát triển web").trim();
     const message = String(req.body.message || "").trim();
 
-    if (!fullName || !title || !message) {
+    if (!message) {
       return res.status(400).json({
         success: false,
-        error: "Vui lòng nhập đầy đủ họ tên, tiêu đề và nội dung góp ý.",
+        error: "Vui lòng nhập nội dung góp ý.",
       });
     }
 
@@ -38,7 +37,11 @@ router.post("/api/feedback/submit", async (req, res) => {
       error: error.message || "Không thể gửi góp ý. Vui lòng thử lại.",
     });
   }
-});
+}
+
+// POST: Submit new suggestion
+router.post("/api/feedback/submit", handleSubmitFeedback);
+router.post("/feedback", handleSubmitFeedback);
 
 // GET: Admin view all suggestions (protected)
 router.get("/api/admin/suggestions", async (req, res) => {

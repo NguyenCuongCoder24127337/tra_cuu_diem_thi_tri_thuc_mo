@@ -80,12 +80,19 @@
         const className = document.getElementById("feedbackClass").value;
         const email = document.getElementById("feedbackEmail").value;
         const message = document.getElementById("feedbackMessage").value;
+        const title = "Góp ý phát triển web";
 
         try {
-          const response = await fetch("/feedback", {
+          const response = await fetch("/api/feedback/submit", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ fullName, className, email, message }),
+            body: JSON.stringify({
+              fullName,
+              className,
+              email,
+              title,
+              message,
+            }),
           });
 
           if (response.ok) {

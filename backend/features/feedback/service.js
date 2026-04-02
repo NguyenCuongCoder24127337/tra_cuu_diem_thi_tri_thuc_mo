@@ -3,14 +3,6 @@ const model = require("./model");
 function validateSuggestion(fullName, title, message) {
   const errors = [];
 
-  if (!fullName || fullName.trim().length < 2) {
-    errors.push("Họ tên không hợp lệ (tối thiểu 2 ký tự).");
-  }
-
-  if (!title || title.trim().length < 5) {
-    errors.push("Tiêu đề không hợp lệ (tối thiểu 5 ký tự).");
-  }
-
   if (!message || message.trim().length < 10) {
     errors.push("Nội dung góp ý không hợp lệ (tối thiểu 10 ký tự).");
   }
@@ -25,10 +17,10 @@ async function submitSuggestion({ fullName, email, phone, title, message }) {
   }
 
   return await model.insertSuggestion({
-    fullName: fullName.trim(),
+    fullName: fullName?.trim() || "Ẩn danh",
     email: email?.trim() || null,
     phone: phone?.trim() || null,
-    title: title.trim(),
+    title: title?.trim() || "Góp ý phát triển web",
     message: message.trim(),
   });
 }
