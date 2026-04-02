@@ -14,6 +14,12 @@
               Ở lần đăng nhập đầu tiên, hệ thống sẽ yêu cầu đổi mật khẩu để bảo mật tài khoản.
             </p>
 
+            <p class="home-blessing">
+              <span>Hiểu mình</span>
+              <span>Chọn Nghề</span>
+              <span>Sáng tương lai</span>
+            </p>
+
             <a href="/login?guide=1" class="btn btn-primary btn-large" id="loginBtn">Vào trang đăng nhập</a>
           </div>
 
@@ -40,17 +46,34 @@
         display: none;
       }
 
-      .blessing-text {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #b84e1f;
-        display: none;
+      .home-blessing {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin: 18px 0 0;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(184, 78, 31, 0.18);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 244, 235, 0.92));
+        color: #8f360d;
+        font-family: "Be Vietnam Pro", "IBM Plex Sans", sans-serif;
+        font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+        font-weight: 900;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        box-shadow: 0 10px 22px rgba(84, 57, 38, 0.08);
       }
 
-      body.homepage .blessing-text {
-        display: block;
-        margin: 0;
-        line-height: 1.6;
+      .home-blessing span {
+        position: relative;
+        white-space: nowrap;
+      }
+
+      .home-blessing span:not(:last-child)::after {
+        content: "-";
+        margin-left: 10px;
+        color: rgba(143, 54, 13, 0.55);
       }
     </style>
 
