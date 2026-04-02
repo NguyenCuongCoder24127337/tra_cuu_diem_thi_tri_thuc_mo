@@ -68,10 +68,11 @@
 
     <div class="popup-overlay" id="firstLoginPopup" aria-hidden="true">
       <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+        <button type="button" class="popup-x-btn" id="closePopupTop" aria-label="Đóng popup">×</button>
         <h2 id="popupTitle">Hướng dẫn đăng nhập lần đầu</h2>
         <ol>
           <li>Học sinh học tại trung tâm không cần tạo tài khoản, trung tâm đã cấp sẵn account và mật khẩu.</li>
-          <li>Lưu ý nếu học sinh tự tạo tài khoản sẽ không xem được điểm, học sinh phải nhập tài khoản và mật khẩu do trung tâm cấp để xem điểm</li>
+          <li>Lưu ý: Nếu học sinh tự tạo tài khoản thì sẽ không xem được điểm, học sinh phải nhập tài khoản và mật khẩu do trung tâm cấp để xem điểm</li>
           <li>Nhập <strong>account</strong> do nhà trường cấp.</li>
           <li>Nhập mật khẩu mặc định.</li>
           <li>Ví dụ: Nguyễn Văn A - account là <strong>NguyenVanA</strong>, mật khẩu mặc định là <strong>NguyenVanA</strong>.</li>
@@ -88,12 +89,11 @@
         const passwordInput = document.getElementById("loginPassword");
         const togglePasswordBtn = document.getElementById("toggleLoginPassword");
         const popup = document.getElementById("firstLoginPopup");
+        const closeTopBtn = document.getElementById("closePopupTop");
         const closeBtn = document.getElementById("closePopup");
         const hasLoginError = Boolean(document.querySelector(".alert:not(.alert-success)"));
         const params = new URLSearchParams(window.location.search);
         const fromGuideButton = params.get("guide") === "1";
-        const seenKey = "firstLoginGuideShownOnce";
-        const hasSeenGuide = sessionStorage.getItem(seenKey) === "1";
 
         if (passwordInput && togglePasswordBtn) {
           togglePasswordBtn.addEventListener("click", function () {
@@ -109,12 +109,11 @@
         }
 
         function openPopupIfNeeded() {
-          if (hasLoginError || !fromGuideButton || hasSeenGuide) {
+          if (hasLoginError || !fromGuideButton) {
             return;
           }
           popup.classList.add("open");
           popup.setAttribute("aria-hidden", "false");
-          sessionStorage.setItem(seenKey, "1");
         }
 
         function closePopup() {
@@ -127,6 +126,12 @@
         closeBtn.addEventListener("click", function () {
           closePopup();
         });
+
+        if (closeTopBtn) {
+          closeTopBtn.addEventListener("click", function () {
+            closePopup();
+          });
+        }
 
         // Close on overlay click
         popup.addEventListener("click", function (e) {
@@ -164,6 +169,29 @@
       }
 
       .password-toggle:hover {
+        background: rgba(184, 78, 31, 0.08);
+      }
+
+      .popup-card {
+        position: relative;
+      }
+
+      .popup-x-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: #7a5a44;
+        font-size: 1.45rem;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .popup-x-btn:hover {
         background: rgba(184, 78, 31, 0.08);
       }
     </style>
