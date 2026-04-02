@@ -857,13 +857,16 @@ td {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 120px;
+  min-width: 120px;
+  width: auto;
+  padding: 0 14px;
   height: 44px;
   border-radius: 22px;
   border: none;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
+  white-space: nowrap;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
@@ -1010,13 +1013,11 @@ td {
   }
 
   .contact-btn {
-    width: 100px;
+    min-width: 156px;
+    width: auto;
+    padding: 0 12px;
     height: 40px;
-    font-size: 0.88rem;
-  }
-
-  .contact-btn span {
-    display: none;
+    font-size: 0.8rem;
   }
 
   .feedback-modal-card {
