@@ -34,8 +34,30 @@
 
     <%- include("../shared/contact-buttons") %>
 
+    <style>
+      body.homepage .menu a,
+      body.homepage .menu .btn {
+        display: none;
+      }
+
+      .blessing-text {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #b84e1f;
+        display: none;
+      }
+
+      body.homepage .blessing-text {
+        display: block;
+        margin: 0;
+        line-height: 1.6;
+      }
+    </style>
+
     <script>
       (function () {
+        document.body.classList.add("homepage");
+
         // Countdown timer
         const targetDate = new Date(2026, 5, 11, 0, 0, 0).getTime();
         const daysEl = document.getElementById("daysLeft");
