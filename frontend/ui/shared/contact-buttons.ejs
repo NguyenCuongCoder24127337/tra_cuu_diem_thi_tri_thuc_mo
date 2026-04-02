@@ -66,30 +66,52 @@
     const closeModal = () => {
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
+      updateContactButtonsVisibility();
     };
 
     if (closeBtn) closeBtn.addEventListener("click", closeModal);
     if (overlay) overlay.addEventListener("click", closeModal);
 
-    // Hide contact buttons when modal is open/closed
-    const contactButtonsWrap = document.querySelector(".contact-buttons-wrap");
-    if (contactButtonsWrap) {
-      const observer = new MutationObserver(() => {
-        if (modal.classList.contains("open")) {
-          contactButtonsWrap.style.opacity = "0";
-          contactButtonsWrap.style.pointerEvents = "none";
-        } else {
-          contactButtonsWrap.style.opacity = "1";
-          contactButtonsWrap.style.pointerEvents = "auto";
-        }
-      });
-      observer.observe(modal, { attributes: true, attributeFilter: ["class"] });
-      // Initial state
-      if (modal.classList.contains("open")) {
+    // Open modal - also update contact buttons
+    openBtn.addEventListener("click", () => {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      updateContactButtonsVisibility();
+    });
+
+    // Update contact buttons visibility based on any modal state
+    function updateContactButtonsVisibility() {
+      const contactButtonsWrap = document.querySelector(".contact-buttons-wrap");
+      if (!contactButtonsWrap) return;
+
+      // Check if ANY modal is open
+      const feedbackModalOpen = document.getElementById("feedbackModal")?.classList.contains("open") || false;
+      const firstLoginPopupOpen = document.getElementById("firstLoginPopup")?.classList.contains("open") || false;
+      const anyModalOpen = feedbackModalOpen || firstLoginPopupOpen;
+
+      if (anyModalOpen) {
         contactButtonsWrap.style.opacity = "0";
         contactButtonsWrap.style.pointerEvents = "none";
+      } else {
+        contactButtonsWrap.style.opacity = "1";
+        contactButtonsWrap.style.pointerEvents = "auto";
       }
     }
+
+    // Also observe document for class changes on any modal
+    const globalObserver = new MutationObserver(() => {
+      updateContactButtonsVisibility();
+    });
+
+    // Observe the document for any class attribute changes
+    globalObserver.observe(document.body, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ["class"],
+    });
+
+    // Initial state
+    updateContactButtonsVisibility();
 
     // Handle form submission
     if (form) {
