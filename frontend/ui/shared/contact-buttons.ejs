@@ -26,18 +26,6 @@
     </div>
     <form id="feedbackForm" class="feedback-form">
       <div class="form-group">
-        <label for="feedbackName">Họ tên (tuỳ chọn)</label>
-        <input type="text" id="feedbackName" name="fullName" placeholder="Nhập họ tên của bạn (ẩn danh nếu không)">
-      </div>
-      <div class="form-group">
-        <label for="feedbackClass">Lớp (tuỳ chọn)</label>
-        <input type="text" id="feedbackClass" name="className" placeholder="Ví dụ: 10A1">
-      </div>
-      <div class="form-group">
-        <label for="feedbackEmail">Email (tuỳ chọn)</label>
-        <input type="email" id="feedbackEmail" name="email" placeholder="Ví dụ: your@email.com">
-      </div>
-      <div class="form-group">
         <label for="feedbackMessage">Góp ý</label>
         <textarea id="feedbackMessage" name="message" placeholder="Chia sẻ ý kiến của bạn..." rows="4" required></textarea>
       </div>
@@ -55,12 +43,6 @@
     const form = document.getElementById("feedbackForm");
 
     if (!openBtn || !modal) return;
-
-    // Open modal
-    openBtn.addEventListener("click", () => {
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-    });
 
     // Close modal
     const closeModal = () => {
@@ -87,7 +69,8 @@
       // Check if ANY modal is open
       const feedbackModalOpen = document.getElementById("feedbackModal")?.classList.contains("open") || false;
       const firstLoginPopupOpen = document.getElementById("firstLoginPopup")?.classList.contains("open") || false;
-      const anyModalOpen = feedbackModalOpen || firstLoginPopupOpen;
+      const homeLoginGuidePopupOpen = document.getElementById("homeLoginGuidePopup")?.classList.contains("open") || false;
+      const anyModalOpen = feedbackModalOpen || firstLoginPopupOpen || homeLoginGuidePopupOpen;
 
       if (anyModalOpen) {
         contactButtonsWrap.style.opacity = "0";
@@ -118,9 +101,6 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const fullName = document.getElementById("feedbackName").value;
-        const className = document.getElementById("feedbackClass").value;
-        const email = document.getElementById("feedbackEmail").value;
         const message = document.getElementById("feedbackMessage").value;
 
         try {
@@ -128,9 +108,6 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              fullName,
-              className,
-              email,
               message,
             }),
           });
