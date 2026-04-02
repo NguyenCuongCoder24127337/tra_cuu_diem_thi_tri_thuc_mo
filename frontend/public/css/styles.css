@@ -649,9 +649,14 @@ td {
   .header-blessing {
     width: 100%;
     justify-content: flex-end;
-    font-size: 0.98rem;
-    padding: 10px 12px;
+    font-size: clamp(0.66rem, 2.9vw, 0.8rem);
+    padding: 8px 10px;
     text-align: right;
+    letter-spacing: 0.1px;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .menu .btn {
@@ -689,6 +694,12 @@ td {
   .hero-content p {
     font-size: 1rem;
     line-height: 1.6;
+  }
+
+  .hero-copy .kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
   }
 
   .auth-wrap {
@@ -802,6 +813,11 @@ td {
 
   .menu a {
     font-size: 0.95rem;
+  }
+
+  .header-blessing {
+    font-size: 0.62rem;
+    padding: 8px;
   }
 
   .btn {
