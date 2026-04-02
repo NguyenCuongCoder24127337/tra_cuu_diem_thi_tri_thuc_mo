@@ -3,8 +3,8 @@ const model = require("./model");
 function validateSuggestion(message) {
   const errors = [];
 
-  if (!message || message.trim().length < 10) {
-    errors.push("Nội dung góp ý không hợp lệ (tối thiểu 10 ký tự).");
+  if (!message || message.trim().length < 5) {
+    errors.push("Nội dung góp ý không hợp lệ (tối thiểu 5 ký tự).");
   }
 
   return errors.length > 0 ? errors.join(" ") : null;

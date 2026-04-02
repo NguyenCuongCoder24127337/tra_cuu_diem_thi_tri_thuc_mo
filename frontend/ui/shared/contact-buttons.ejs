@@ -93,12 +93,14 @@
             }),
           });
 
+          const payload = await response.json().catch(() => ({}));
+
           if (response.ok) {
             alert("Cảm ơn bạn đã đóng góp, chúc bạn thi đại học tốt.");
             form.reset();
             closeModal();
           } else {
-            alert("Có lỗi khi gửi góp ý. Vui lòng thử lại.");
+            alert(payload.error || payload.message || "Có lỗi khi gửi góp ý. Vui lòng thử lại.");
           }
         } catch (error) {
           console.error("Feedback error:", error);
