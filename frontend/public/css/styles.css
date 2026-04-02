@@ -413,24 +413,6 @@ input:focus {
   line-height: 1.6;
 }
 
-.support-corner {
-  position: fixed;
-  right: 16px;
-  bottom: 92px;
-  width: min(320px, calc(100% - 24px));
-  background: linear-gradient(155deg, #fffaf3, #ffe4cf);
-  border: 1px solid #e6b595;
-  border-radius: 14px;
-  box-shadow: 0 14px 30px rgba(102, 45, 12, 0.2);
-  padding: 12px 14px;
-  z-index: 25;
-}
-
-.support-corner p {
-  margin: 4px 0;
-  font-size: 0.93rem;
-}
-
 .popup-overlay {
   position: fixed;
   inset: 0;
