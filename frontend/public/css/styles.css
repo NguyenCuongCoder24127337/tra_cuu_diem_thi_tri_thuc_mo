@@ -140,8 +140,39 @@ h4,
   min-height: auto;
   display: grid;
   align-items: center;
-  background: #fff;
+  overflow: hidden;
+  background:
+    radial-gradient(150% 120% at -8% -24%, rgba(22, 129, 137, 0.1), transparent 56%),
+    radial-gradient(130% 100% at 120% -10%, rgba(16, 92, 99, 0.09), transparent 58%),
+    linear-gradient(180deg, #f8fbfb, #f1f6f6 52%, #eef4f4);
   padding: 26px 0 44px;
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.hero::before {
+  inset: auto -8% -26% -8%;
+  height: 48%;
+  background:
+    radial-gradient(74% 92% at 18% 22%, rgba(255, 255, 255, 0.55), transparent 58%),
+    radial-gradient(64% 72% at 72% 28%, rgba(255, 255, 255, 0.42), transparent 62%),
+    linear-gradient(180deg, rgba(215, 229, 229, 0), rgba(198, 218, 218, 0.24));
+}
+
+.hero::after {
+  width: clamp(260px, 34vw, 460px);
+  aspect-ratio: 1.8 / 1;
+  right: clamp(-70px, -5vw, -18px);
+  top: clamp(32px, 8vh, 78px);
+  border: 1px solid rgba(90, 140, 142, 0.22);
+  border-radius: 70% 42% 68% 45% / 52% 60% 44% 56%;
+  background: rgba(255, 255, 255, 0.12);
+  transform: rotate(-7deg);
 }
 
 .hero-content {
@@ -183,6 +214,13 @@ h4,
 
 .hero-copy {
   max-width: 760px;
+  padding: clamp(16px, 2vw, 26px);
+  border-radius: 30px;
+  border: 1px solid rgba(111, 151, 152, 0.24);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.8), rgba(249, 253, 252, 0.64));
+  box-shadow: 0 14px 36px rgba(21, 42, 44, 0.1);
+  backdrop-filter: blur(4px);
 }
 
 .wish-strip {
@@ -195,9 +233,9 @@ h4,
 .wish-strip span {
   display: block;
   padding: 12px 14px;
-  border-radius: 14px;
-  background: #f7f8fb;
-  border: 1px solid #e4e8f0;
+  border-radius: 22px 12px 20px 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(246, 250, 250, 0.75));
+  border: 1px solid rgba(120, 156, 158, 0.24);
   color: var(--ink-main);
   font-size: 0.96rem;
   line-height: 1.5;
@@ -207,11 +245,12 @@ h4,
   justify-self: end;
   width: min(360px, 100%);
   padding: 22px 20px;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #ffffff, #faf7f3);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-sm);
+  border-radius: 26px 18px 24px 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(245, 251, 251, 0.76));
+  border: 1px solid rgba(110, 148, 150, 0.28);
+  box-shadow: 0 16px 34px rgba(23, 42, 44, 0.12);
   color: var(--ink-main);
+  backdrop-filter: blur(5px);
 }
 
 .countdown-kicker,
@@ -246,10 +285,10 @@ h4,
 
 .countdown-grid div {
   padding: 12px 8px;
-  border-radius: 14px;
+  border-radius: 16px;
   text-align: center;
-  background: #fff;
-  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(120, 156, 158, 0.2);
 }
 
 .countdown-grid strong {
@@ -630,6 +669,12 @@ td {
     padding: 22px 0 34px;
   }
 
+  .hero::after {
+    width: clamp(180px, 52vw, 260px);
+    right: -56px;
+    top: 10px;
+  }
+
   .hero-content {
     padding: 18px 0 8px;
   }
@@ -764,6 +809,14 @@ td {
     padding: 18px 0 28px;
   }
 
+  .hero::before {
+    height: 42%;
+  }
+
+  .hero::after {
+    display: none;
+  }
+
   .hero-content {
     padding: 12px 0 6px;
   }
@@ -781,12 +834,13 @@ td {
     padding: 10px 13px;
   }
 
-  .hero-content {
-    padding: 30px 0 36px;
-  }
-
   .hero-content h1 {
     font-size: 1.58rem;
+  }
+
+  .hero-copy {
+    border-radius: 20px;
+    padding: 14px;
   }
 
   .card,
