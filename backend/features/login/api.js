@@ -20,7 +20,7 @@ router.post("/login", async (req, res) => {
     const password = String(req.body.password || "");
 
     if (!account || !password) {
-      return res.status(400).render("login/login", {
+      return res.render("login/login", {
         error: "Vui lòng nhập đầy đủ account và mật khẩu.",
       });
     }
@@ -28,7 +28,7 @@ router.post("/login", async (req, res) => {
     const student = await service.login(account, password);
 
     if (!student) {
-      return res.status(401).render("login/login", {
+      return res.render("login/login", {
         error: "Thông tin đăng nhập không đúng.",
       });
     }
@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
       return res.redirect("/dashboard");
     });
   } catch (error) {
-    return res.status(500).render("login/login", {
+    return res.render("login/login", {
       error: "Có lỗi hệ thống. Vui lòng thử lại.",
     });
   }

@@ -11,6 +11,7 @@ const changePasswordApi = require("./features/change-password/api");
 const logoutApi = require("./features/logout/api");
 const dashboardApi = require("./features/dashboard/api");
 const adminCreateStudentApi = require("./features/admin-create-student/api");
+const feedbackApi = require("./features/feedback/api");
 
 async function bootstrap() {
   const required = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "SESSION_SECRET", "REDIS_URL"];
@@ -37,6 +38,7 @@ async function bootstrap() {
   app.use(logoutApi);
   app.use(dashboardApi);
   app.use(adminCreateStudentApi);
+  app.use(feedbackApi);
 
   app.use((req, res) => {
     res.status(404).send("Trang không tồn tại");
