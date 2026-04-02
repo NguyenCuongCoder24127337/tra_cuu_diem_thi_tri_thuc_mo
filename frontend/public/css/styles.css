@@ -416,7 +416,7 @@ input:focus {
 .support-corner {
   position: fixed;
   right: 16px;
-  bottom: 16px;
+  bottom: 92px;
   width: min(320px, calc(100% - 24px));
   background: linear-gradient(155deg, #fffaf3, #ffe4cf);
   border: 1px solid #e6b595;
