@@ -36,7 +36,23 @@
 
           <label>
             Mật khẩu
-            <input type="password" name="password" required />
+            <div class="password-field">
+              <input type="password" name="password" id="loginPassword" required />
+              <button
+                type="button"
+                class="password-toggle"
+                id="toggleLoginPassword"
+                aria-label="Hiện mật khẩu"
+                aria-pressed="false"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                  <path
+                    fill="currentColor"
+                    d="M12 5c-5.44 0-9.88 3.5-11 7 1.12 3.5 5.56 7 11 7s9.88-3.5 11-7c-1.12-3.5-5.56-7-11-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                  />
+                </svg>
+              </button>
+            </div>
           </label>
 
           <button type="submit" class="btn btn-primary">Đăng nhập</button>
@@ -68,18 +84,36 @@
 
     <script>
       (function () {
-        const form = document.getElementById("loginForm");
+        const passwordInput = document.getElementById("loginPassword");
+        const togglePasswordBtn = document.getElementById("toggleLoginPassword");
         const popup = document.getElementById("firstLoginPopup");
         const closeBtn = document.getElementById("closePopup");
-        let waitingSubmit = false;
+        const hasLoginError = Boolean(document.querySelector(".alert:not(.alert-success)"));
+        const params = new URLSearchParams(window.location.search);
+        const fromGuideButton = params.get("guide") === "1";
+        const seenKey = "firstLoginGuideShownOnce";
+        const hasSeenGuide = sessionStorage.getItem(seenKey) === "1";
 
-        if (!form || !popup || !closeBtn) {
+        if (passwordInput && togglePasswordBtn) {
+          togglePasswordBtn.addEventListener("click", function () {
+            const showPassword = passwordInput.type === "password";
+            passwordInput.type = showPassword ? "text" : "password";
+            togglePasswordBtn.setAttribute("aria-pressed", showPassword ? "true" : "false");
+            togglePasswordBtn.setAttribute("aria-label", showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu");
+          });
+        }
+
+        if (!popup || !closeBtn) {
           return;
         }
 
-        function openPopup() {
+        function openPopupIfNeeded() {
+          if (hasLoginError || !fromGuideButton || hasSeenGuide) {
+            return;
+          }
           popup.classList.add("open");
           popup.setAttribute("aria-hidden", "false");
+          sessionStorage.setItem(seenKey, "1");
         }
 
         function closePopup() {
@@ -87,32 +121,51 @@
           popup.setAttribute("aria-hidden", "true");
         }
 
-        form.addEventListener("submit", function (e) {
-          if (waitingSubmit) {
-            return;
-          }
-          e.preventDefault();
-          waitingSubmit = true;
-          openPopup();
-        });
+        openPopupIfNeeded();
 
         closeBtn.addEventListener("click", function () {
           closePopup();
-          if (waitingSubmit) {
-            waitingSubmit = false;
-            form.submit();
-          }
         });
 
         // Close on overlay click
         popup.addEventListener("click", function (e) {
           if (e.target === popup) {
             closePopup();
-            waitingSubmit = false;
           }
         });
       })();
     </script>
+
+    <style>
+      .password-field {
+        position: relative;
+      }
+
+      .password-field input {
+        padding-right: 42px;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border: none;
+        background: transparent;
+        color: #7a5a44;
+        cursor: pointer;
+        border-radius: 8px;
+      }
+
+      .password-toggle:hover {
+        background: rgba(184, 78, 31, 0.08);
+      }
+    </style>
 
     <%- include("../shared/contact-buttons") %>
   </body>

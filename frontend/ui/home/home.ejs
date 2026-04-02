@@ -14,7 +14,7 @@
               Ở lần đăng nhập đầu tiên, hệ thống sẽ yêu cầu đổi mật khẩu để bảo mật tài khoản.
             </p>
 
-            <a href="#" class="btn btn-primary btn-large" id="loginBtn">Vào trang đăng nhập</a>
+            <a href="/login?guide=1" class="btn btn-primary btn-large" id="loginBtn">Vào trang đăng nhập</a>
           </div>
 
           <aside class="countdown-card" aria-label="Đếm ngược đến kỳ thi đại học">
@@ -31,25 +31,6 @@
         </div>
       </section>
     </main>
-
-    <div class="popup-overlay" id="homeLoginGuidePopup" aria-hidden="true">
-      <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="homePopupTitle">
-        <h2 id="homePopupTitle">Hướng dẫn đăng nhập lần đầu</h2>
-        <ol>
-          <li>Nhập <strong>account</strong> do nhà trường cấp.</li>
-          <li>Nhập mật khẩu mặc định (giống account).</li>
-          <li>Ví dụ: Nguyễn Văn A - account là <strong>NguyenVanA</strong>, mật khẩu là <strong>NguyenVanA</strong>.</li>
-          <li>Sau khi đăng nhập thành công, hệ thống sẽ yêu cầu đổi mật khẩu mới.</li>
-          <li>Học sinh học tại trung tâm không cần tạo tài khoản, nhà trường sẽ cấp sẵn.</li>
-          <li>Nếu gặp lỗi đăng nhập, nhấn Zalo để liên hệ <strong>Nguyễn Cường</strong> hỗ trợ.</li>
-          <li>Nếu muốn đóng góp phát triển web, nhấn nút <strong>Góp ý phát triển web</strong>.</li>
-        </ol>
-        <div class="popup-buttons">
-          <button type="button" class="btn btn-primary" id="confirmLoginBtn">Vào trang đăng nhập</button>
-          <button type="button" class="btn btn-outline" id="closeLoginGuideBtn">Quay lại</button>
-        </div>
-      </section>
-    </div>
 
     <%- include("../shared/contact-buttons") %>
 
@@ -84,37 +65,6 @@
 
           updateCountdown();
           setInterval(updateCountdown, 1000);
-        }
-
-        // Login guide popup handler
-        const loginBtn = document.getElementById("loginBtn");
-        const popup = document.getElementById("homeLoginGuidePopup");
-        const confirmBtn = document.getElementById("confirmLoginBtn");
-        const closeBtn = document.getElementById("closeLoginGuideBtn");
-
-        if (loginBtn && popup && confirmBtn && closeBtn) {
-          loginBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            popup.classList.add("open");
-            popup.setAttribute("aria-hidden", "false");
-          });
-
-          confirmBtn.addEventListener("click", function () {
-            window.location.href = "/login";
-          });
-
-          closeBtn.addEventListener("click", function () {
-            popup.classList.remove("open");
-            popup.setAttribute("aria-hidden", "true");
-          });
-
-          // Close on overlay click
-          popup.addEventListener("click", function (e) {
-            if (e.target === popup) {
-              popup.classList.remove("open");
-              popup.setAttribute("aria-hidden", "true");
-            }
-          });
         }
       })();
     </script>
