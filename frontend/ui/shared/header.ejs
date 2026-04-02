@@ -12,8 +12,12 @@
         <button type="submit" class="btn btn-outline">Đăng xuất</button>
       </form>
       <% } else { %>
+      <% if (typeof homepage !== "undefined" && homepage) { %>
+      <span class="header-blessing">Hiểu mình - Chọn Nghề - Sáng tương lai</span>
+      <% } else { %>
       <a href="/admin/create-student" class="btn btn-outline">Tạo tài khoản</a>
       <a href="/login" class="btn btn-primary">Đăng nhập</a>
+      <% } %>
       <% } %>
     </nav>
   </div>
