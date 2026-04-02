@@ -71,6 +71,26 @@
     if (closeBtn) closeBtn.addEventListener("click", closeModal);
     if (overlay) overlay.addEventListener("click", closeModal);
 
+    // Hide contact buttons when modal is open/closed
+    const contactButtonsWrap = document.querySelector(".contact-buttons-wrap");
+    if (contactButtonsWrap) {
+      const observer = new MutationObserver(() => {
+        if (modal.classList.contains("open")) {
+          contactButtonsWrap.style.opacity = "0";
+          contactButtonsWrap.style.pointerEvents = "none";
+        } else {
+          contactButtonsWrap.style.opacity = "1";
+          contactButtonsWrap.style.pointerEvents = "auto";
+        }
+      });
+      observer.observe(modal, { attributes: true, attributeFilter: ["class"] });
+      // Initial state
+      if (modal.classList.contains("open")) {
+        contactButtonsWrap.style.opacity = "0";
+        contactButtonsWrap.style.pointerEvents = "none";
+      }
+    }
+
     // Handle form submission
     if (form) {
       form.addEventListener("submit", async (e) => {

@@ -75,9 +75,12 @@
           return;
         }
 
-        // Always show popup on login page
-        popup.classList.add("open");
-        popup.setAttribute("aria-hidden", "false");
+        // Show popup only if no error (first-time login, not failed login)
+        const errorElement = document.querySelector(".alert:not(.alert-success)");
+        if (!errorElement) {
+          popup.classList.add("open");
+          popup.setAttribute("aria-hidden", "false");
+        }
 
         closeBtn.addEventListener("click", function () {
           popup.classList.remove("open");
