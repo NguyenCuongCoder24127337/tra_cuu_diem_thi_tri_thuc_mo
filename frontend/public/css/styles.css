@@ -112,7 +112,7 @@ body.homepage .menu > .btn {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 244, 235, 0.96));
   color: #8f360d;
   font-family: "Be Vietnam Pro", "IBM Plex Sans", sans-serif;
-  font-size: clamp(1.04rem, 1.9vw, 1.3rem);
+  font-size: clamp(1.35rem, 2.15vw, 1.68rem);
   font-weight: 900;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -176,10 +176,11 @@ body.homepage .menu > .btn {
 
 .kicker {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: clamp(1.15rem, 1.5vw, 1.22rem);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.8px;
+  letter-spacing: 1px;
+  white-space: nowrap;
   color: var(--teal);
 }
 
@@ -649,7 +650,7 @@ td {
   .header-blessing {
     width: 100%;
     justify-content: flex-end;
-    font-size: clamp(0.74rem, 3.2vw, 0.9rem);
+    font-size: clamp(0.96rem, 3.2vw, 1.16rem);
     padding: 8px 10px;
     text-align: right;
     letter-spacing: 0;
@@ -697,8 +698,8 @@ td {
   }
 
   .hero-copy .kicker {
-    font-size: 0.72rem;
-    letter-spacing: 0.6px;
+    font-size: clamp(0.94rem, 2.9vw, 1.08rem);
+    letter-spacing: 0.3px;
     white-space: nowrap;
   }
 
@@ -816,7 +817,7 @@ td {
   }
 
   .header-blessing {
-    font-size: 0.72rem;
+    font-size: 0.94rem;
     padding: 8px;
   }
 
