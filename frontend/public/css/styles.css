@@ -649,10 +649,10 @@ td {
   .header-blessing {
     width: 100%;
     justify-content: flex-end;
-    font-size: clamp(0.66rem, 2.9vw, 0.8rem);
+    font-size: clamp(0.74rem, 3.2vw, 0.9rem);
     padding: 8px 10px;
     text-align: right;
-    letter-spacing: 0.1px;
+    letter-spacing: 0;
     line-height: 1.2;
     white-space: nowrap;
     overflow: hidden;
@@ -816,7 +816,7 @@ td {
   }
 
   .header-blessing {
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     padding: 8px;
   }
 
