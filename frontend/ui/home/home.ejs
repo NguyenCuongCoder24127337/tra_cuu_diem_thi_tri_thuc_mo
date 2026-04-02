@@ -23,7 +23,7 @@
               <span>Vững tâm ôn luyện, tự tin bước vào kỳ thi đại học.</span>
             </div>
 
-            <a href="/login" class="btn btn-primary btn-large">Vào trang đăng nhập</a>
+            <a href="#" class="btn btn-primary btn-large" id="loginBtn">Vào trang đăng nhập</a>
           </div>
 
           <aside class="countdown-card" aria-label="Đếm ngược đến kỳ thi đại học">
@@ -42,40 +42,92 @@
       </section>
     </main>
 
+    <div class="popup-overlay" id="homeLoginGuidePopup" aria-hidden="true">
+      <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="homePopupTitle">
+        <h2 id="homePopupTitle">Hướng dẫn đăng nhập lần đầu</h2>
+        <ol>
+          <li>Nhập <strong>account</strong> do nhà trường cấp.</li>
+          <li>Nhập mật khẩu mặc định (giống account).</li>
+          <li>Ví dụ: Nguyễn Văn A - account là <strong>NguyenVanA</strong>, mật khẩu là <strong>NguyenVanA</strong>.</li>
+          <li>Sau khi đăng nhập thành công, hệ thống sẽ yêu cầu đổi mật khẩu mới.</li>
+          <li>Học sinh học tại trung tâm không cần tạo tài khoản, nhà trường sẽ cấp sẵn.</li>
+          <li>Nếu cần hỗ trợ, liên hệ Zalo <strong>0794674715</strong> (Nguyễn Cường).</li>
+        </ol>
+        <div class="popup-buttons">
+          <button type="button" class="btn btn-primary" id="confirmLoginBtn">Vào trang đăng nhập</button>
+          <button type="button" class="btn btn-outline" id="closeLoginGuideBtn">Quay lại</button>
+        </div>
+      </section>
+    </div>
+
+    <%- include("../shared/contact-buttons") %>
+
     <script>
       (function () {
+        // Countdown timer
         const targetDate = new Date(2026, 5, 11, 0, 0, 0).getTime();
         const daysEl = document.getElementById("daysLeft");
         const hoursEl = document.getElementById("hoursLeft");
         const minutesEl = document.getElementById("minutesLeft");
         const secondsEl = document.getElementById("secondsLeft");
 
-        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) {
-          return;
+        if (daysEl && hoursEl && minutesEl && secondsEl) {
+          function pad(value) {
+            return String(value).padStart(2, "0");
+          }
+
+          function updateCountdown() {
+            const now = Date.now();
+            const diff = Math.max(0, targetDate - now);
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            daysEl.textContent = days;
+            hoursEl.textContent = pad(hours);
+            minutesEl.textContent = pad(minutes);
+            secondsEl.textContent = pad(seconds);
+          }
+
+          updateCountdown();
+          setInterval(updateCountdown, 1000);
         }
 
-        function pad(value) {
-          return String(value).padStart(2, "0");
+        // Login guide popup handler
+        const loginBtn = document.getElementById("loginBtn");
+        const popup = document.getElementById("homeLoginGuidePopup");
+        const confirmBtn = document.getElementById("confirmLoginBtn");
+        const closeBtn = document.getElementById("closeLoginGuideBtn");
+
+        if (loginBtn && popup && confirmBtn && closeBtn) {
+          loginBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            popup.classList.add("open");
+            popup.setAttribute("aria-hidden", "false");
+          });
+
+          confirmBtn.addEventListener("click", function () {
+            window.location.href = "/login";
+          });
+
+          closeBtn.addEventListener("click", function () {
+            popup.classList.remove("open");
+            popup.setAttribute("aria-hidden", "true");
+          });
+
+          // Close on overlay click
+          popup.addEventListener("click", function (e) {
+            if (e.target === popup) {
+              popup.classList.remove("open");
+              popup.setAttribute("aria-hidden", "true");
+            }
+          });
         }
-
-        function updateCountdown() {
-          const now = Date.now();
-          const diff = Math.max(0, targetDate - now);
-
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-          const minutes = Math.floor((diff / (1000 * 60)) % 60);
-          const seconds = Math.floor((diff / 1000) % 60);
-
-          daysEl.textContent = days;
-          hoursEl.textContent = pad(hours);
-          minutesEl.textContent = pad(minutes);
-          secondsEl.textContent = pad(seconds);
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
       })();
     </script>
+
+    <%- include("../shared/feedback-widget") %>
   </body>
 </html>

@@ -76,24 +76,30 @@
       (function () {
         const popup = document.getElementById("firstLoginPopup");
         const closeBtn = document.getElementById("closePopup");
-        const storageKey = "first-login-guide-seen";
 
         if (!popup || !closeBtn) {
           return;
         }
 
-        const seen = sessionStorage.getItem(storageKey);
-        if (!seen) {
-          popup.classList.add("open");
-          popup.setAttribute("aria-hidden", "false");
-        }
+        // Always show popup on login page
+        popup.classList.add("open");
+        popup.setAttribute("aria-hidden", "false");
 
         closeBtn.addEventListener("click", function () {
           popup.classList.remove("open");
           popup.setAttribute("aria-hidden", "true");
-          sessionStorage.setItem(storageKey, "1");
+        });
+
+        // Close on overlay click
+        popup.addEventListener("click", function (e) {
+          if (e.target === popup) {
+            popup.classList.remove("open");
+            popup.setAttribute("aria-hidden", "true");
+          }
         });
       })();
     </script>
+
+    <%- include("../shared/contact-buttons") %>
   </body>
 </html>
