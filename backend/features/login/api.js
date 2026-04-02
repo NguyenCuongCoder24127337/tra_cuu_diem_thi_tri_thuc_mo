@@ -8,7 +8,10 @@ router.get("/login", (req, res) => {
     return res.redirect("/dashboard");
   }
 
-  return res.render("login/login", { error: null });
+  const createdStudent = req.session.createdStudent || null;
+  delete req.session.createdStudent;
+
+  return res.render("login/login", { error: null, createdStudent });
 });
 
 router.post("/login", async (req, res) => {

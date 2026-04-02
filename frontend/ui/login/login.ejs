@@ -9,6 +9,13 @@
         <h1>Đăng nhập học sinh</h1>
         <p class="muted">Tài khoản mặc định: account và mật khẩu do nhà trường cấp.</p>
 
+        <% if (createdStudent) { %>
+        <p class="alert alert-success">
+          Tạo tài khoản thành công cho <strong><%= createdStudent.fullName %></strong>.
+          Tài khoản: <strong><%= createdStudent.account %></strong>. Mật khẩu mặc định: <strong><%= createdStudent.defaultPassword %></strong>.
+        </p>
+        <% } %>
+
         <div class="example-box">
           <p><strong>Ví dụ cách đăng nhập:</strong></p>
           <p>Tên học sinh: <strong>Nguyễn Văn A</strong></p>
@@ -58,6 +65,7 @@
           <li>Nhập mật khẩu mặc định.</li>
           <li>Ví dụ: Nguyễn Văn A - account là <strong>NguyenVanA</strong>, mật khẩu mặc định là <strong>NguyenVanA</strong>.</li>
           <li>Sau khi đăng nhập thành công, hệ thống sẽ yêu cầu đổi mật khẩu mới.</li>
+          <li>Học sinh học tại trung tâm không cần tạo tài khoản, nhà trường sẽ cấp sẵn account và mật khẩu.</li>
           <li>Nếu đăng nhập lỗi, liên hệ Zalo <strong>0794674715</strong> (Nguyễn Cường).</li>
         </ol>
         <button type="button" class="btn btn-primary" id="closePopup">Tôi đã hiểu</button>

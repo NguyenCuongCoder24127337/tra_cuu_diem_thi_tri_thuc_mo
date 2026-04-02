@@ -25,9 +25,17 @@ router.post("/admin/create-student", async (req, res) => {
 
     const created = await service.createStudentAccount({ fullName, className, dob });
 
-    return res.render("admin-create-student/admin-create-student", {
-      error: null,
-      created,
+    req.session.createdStudent = created;
+
+    return req.session.save((saveError) => {
+      if (saveError) {
+        return res.status(500).render("admin-create-student/admin-create-student", {
+          error: "Khong the luu phien tao tai khoan. Vui long thu lai.",
+          created: null,
+        });
+      }
+
+      return res.redirect("/login");
     });
   } catch (error) {
     return res.status(400).render("admin-create-student/admin-create-student", {
