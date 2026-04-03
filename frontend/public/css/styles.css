@@ -164,13 +164,13 @@ body.homepage .menu > .btn {
   display: grid;
   align-items: center;
   background: linear-gradient(180deg, #f4ede3, #efe4d6);
-  padding: 26px 0 44px;
+  padding: 26px 0 24px;
 }
 
 .hero-content {
   position: relative;
   color: var(--ink-main);
-  padding: 52px 0;
+  padding: 38px 0 18px;
   animation: reveal-up 0.8s ease-out both;
 }
 
@@ -229,7 +229,7 @@ body.homepage .menu > .btn {
 .hero-copy {
   position: relative;
   overflow: hidden;
-  max-width: 760px;
+  max-width: 860px;
   padding: clamp(16px, 2vw, 26px);
   border-radius: 24px;
   border: 1px solid rgba(190, 160, 136, 0.34);
@@ -256,9 +256,17 @@ body.homepage .menu > .btn {
   z-index: 1;
 }
 
+.hero-single {
+  margin-inline: auto;
+}
+
+.countdown-section {
+  padding: 8px 0 36px;
+}
+
 .countdown-card {
-  justify-self: end;
-  width: min(360px, 100%);
+  width: min(760px, 100%);
+  margin: 0 auto;
   padding: 22px 20px;
   border-radius: 20px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(250, 242, 232, 0.76));
@@ -318,11 +326,11 @@ body.homepage .menu > .btn {
 }
 
 .lookup-section {
-  padding: 18px 0 30px;
+  padding: 8px 0 16px;
 }
 
 .lookup-card {
-  padding: 22px 22px 20px;
+  padding: 24px 24px 22px;
   border-radius: 24px;
   border: 1px solid rgba(190, 160, 136, 0.34);
   background:
@@ -752,6 +760,25 @@ td {
   }
 }
 
+.popup-card .popup-x-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: #7a5a44;
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.popup-card .popup-x-btn:hover {
+  background: rgba(184, 78, 31, 0.08);
+  }
+
 @media (max-width: 1080px) {
   .info-grid,
   .leader-grid {
@@ -798,13 +825,15 @@ td {
     padding: 18px 0 6px;
   }
 
-  .home-hero-layout {
-    grid-template-columns: 1fr;
-    gap: 18px;
+  .hero-single {
+    margin-inline: 0;
+  }
+
+  .countdown-section {
+    padding: 6px 0 30px;
   }
 
   .countdown-card {
-    justify-self: start;
     width: 100%;
     padding: 18px 16px;
   }
@@ -885,6 +914,11 @@ td {
     padding: 14px;
     max-height: 78vh;
     overflow-y: auto;
+  }
+
+  .popup-card .popup-x-btn {
+    top: 8px;
+    right: 8px;
   }
 
   .popup-card h2 {
@@ -986,6 +1020,14 @@ td {
   .hero-copy {
     border-radius: 20px;
     padding: 14px;
+  }
+
+  .countdown-section {
+    padding: 4px 0 28px;
+  }
+
+  .countdown-card {
+    padding: 16px 14px;
   }
 
   .card,
