@@ -5,262 +5,320 @@
     <%- include("../shared/header", { user, homepage: true }) %>
 
     <main>
+      <section class="hero">
+        <div class="container hero-content home-hero-layout">
+          <div class="hero-copy">
+            <p class="hero-eyebrow">Tra cứu điểm thi nhanh và rõ ràng</p>
+            <h1>Hệ thống tra cứu điểm thi học sinh</h1>
+            <p class="hero-lead">
+              Nhập đúng họ và tên để kiểm tra chính xác, hoặc chỉ cần nhập tên để tìm nhanh username.
+              Account đã được trung tâm tạo sẵn, học sinh chỉ cần đăng nhập.
+            </p>
+            <a href="/login?guide=1" class="btn btn-primary btn-large" id="loginBtn">Vào trang đăng nhập</a>
+          </div>
+
+        
+
       <section class="lookup-section" aria-label="Tra cứu username theo tên">
         <div class="container">
           <p class="kicker">Hệ thống tra cứu điểm thi học sinh</p>
         </div>
+
         <div class="container lookup-card">
+          <p class="lookup-label">Tra cứu username trước khi đăng nhập</p>
           <h2>Tìm username nhanh theo tên</h2>
           <p>
-            Đôi khi dữ liệu có thể bị gõ lệch dấu hoặc viết tắt (ví dụ: Phạm thành Phan, Nguyễn Văn A thành Nguyễn A).
-            Nếu chưa tìm được account của mình, bạn hãy nhập <strong>tên gọi cuối</strong> (ví dụ: Cường) để hệ thống gợi ý các username gần đúng.
+            Nếu chưa đăng nhập được, hãy tra cứu username trước. Có thể dữ liệu đang bị gõ lệch dấu hoặc viết tắt so với tên của bạn
+            (ví dụ: Phạm thành Phan, Nguyễn Văn A thành Nguyễn A).
           </p>
           <p>
-            Muốn kiểm tra chính xác thông tin của chính bạn, hãy nhập <strong>đúng họ và tên đầy đủ</strong> để hệ thống trả về đúng kết quả của người đó.
+            Muốn kiểm tra đúng thông tin của chính bạn, hãy nhập <strong>họ và tên đầy đủ</strong> để hệ thống trả về đúng kết quả của người đó.
+          </p>
+          <p>
+            Nếu không tìm thấy, có thể dữ liệu đang bị lưu sai hoặc tên đang bị ghi lệch. Lúc đó bạn chỉ cần nhập <strong>tên</strong>
+            (ví dụ: Cường) để hệ thống tìm nhanh username gần đúng.
           </p>
           <p class="lookup-tip">
             Khuyến khích dùng tính năng này trước khi vào trang đăng nhập để chắc chắn account của bạn đã tồn tại.
           </p>
 
           <form id="lookupForm" class="lookup-form" autocomplete="off">
-            <label for="lookupInput">Nhập đúng họ và tên để kiểm tra chính xác, hoặc nhập tên để tìm nhanh username</label>
+            <label for="lookupInput">Nhập họ và tên đầy đủ để kiểm tra, hoặc nhập tên để tìm username</label>
             <div class="lookup-input-row">
-              <input
-                type="text"
-                id="lookupInput"
-                name="lookupName"
-                placeholder="Ví dụ: Cường"
-                minlength="2"
-                required
-              />
-              <button type="submit" class="btn btn-primary">Tra cứu</button>
-            </div>
-          </form>
+              <!DOCTYPE html>
+              <html lang="vi">
+                <%- include("../shared/head", { title: "Trang chủ - Tra cứu điểm thi" }) %>
+                <body>
+                  <%- include("../shared/header", { user, homepage: true }) %>
 
-          <p id="lookupStatus" class="lookup-status" aria-live="polite"></p>
-          <div id="lookupResults" class="lookup-results" aria-live="polite"></div>
-        </div>
-      </section>
+                  <main>
+                    <section class="hero">
+                      <div class="container hero-content home-hero-layout">
+                        <div class="hero-copy">
+                          <p class="hero-eyebrow">Tra cứu điểm thi nhanh và rõ ràng</p>
+                          <h1>Hệ thống tra cứu điểm thi học sinh</h1>
+                          <p class="hero-lead">
+                            Nhập đúng họ và tên để kiểm tra chính xác, hoặc chỉ cần nhập tên để tìm nhanh username.
+                            Account đã được trung tâm tạo sẵn, học sinh chỉ cần đăng nhập.
+                          </p>
+                          <a href="/login?guide=1" class="btn btn-primary btn-large" id="loginBtn">Vào trang đăng nhập</a>
+                        </div>
 
-      <section class="hero">
-        <div class="container hero-content home-hero-layout">
-          <div class="hero-copy">
-            <a href="/login?guide=1" class="btn btn-primary btn-large" id="loginBtn">Vào trang đăng nhập</a>
-          </div>
+                        <aside class="countdown-card" aria-label="Đếm ngược đến kỳ thi đại học">
+                          <p class="countdown-kicker">Đếm ngược đến kỳ thi đại học</p>
+                          <h2>11 / 6 / 2026</h2>
+                          <p class="countdown-label">Còn lại</p>
+                          <div class="countdown-grid" id="countdownGrid">
+                            <div><strong id="daysLeft">0</strong><span>Ngày</span></div>
+                            <div><strong id="hoursLeft">0</strong><span>Giờ</span></div>
+                            <div><strong id="minutesLeft">0</strong><span>Phút</span></div>
+                            <div><strong id="secondsLeft">0</strong><span>Giây</span></div>
+                          </div>
+                        </aside>
+                      </div>
+                    </section>
 
-          <aside class="countdown-card" aria-label="Đếm ngược đến kỳ thi đại học">
-            <p class="countdown-kicker">Đếm ngược đến kỳ thi đại học</p>
-            <h2>11 / 6 / 2026</h2>
-            <p class="countdown-label">Còn lại</p>
-            <div class="countdown-grid" id="countdownGrid">
-              <div><strong id="daysLeft">0</strong><span>Ngày</span></div>
-              <div><strong id="hoursLeft">0</strong><span>Giờ</span></div>
-              <div><strong id="minutesLeft">0</strong><span>Phút</span></div>
-              <div><strong id="secondsLeft">0</strong><span>Giây</span></div>
-            </div>
-          </aside>
-        </div>
-      </section>
-    </main>
+                    <section class="lookup-section" aria-label="Tra cứu username theo tên">
+                      <div class="container">
+                        <p class="kicker">Hệ thống tra cứu điểm thi học sinh</p>
+                      </div>
 
-    <div class="popup-overlay" id="homeLoginGuidePopup" aria-hidden="true">
-      <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="homePopupTitle">
-        <button type="button" class="popup-x-btn" id="closeHomePopupTop" aria-label="Đóng popup">×</button>
-        <h2 id="homePopupTitle">Lưu ý trước khi đăng nhập</h2>
-        <ol>
-          <li><strong>Tuyệt đối không tự tạo account mới</strong>. Tự tạo account sẽ không xem được điểm.</li>
-          <li>Account của học sinh đã được trung tâm tạo sẵn, bạn chỉ cần đăng nhập.</li>
-          <li>Ví dụ: Nguyễn Văn A thì username là NguyenVanA, mật khẩu lần đầu cũng là NguyenVanA.</li>
-          <li>Nếu nhập sai hoặc không vào được, hãy tra cứu username theo tên ở ô bên dưới phần hướng dẫn đăng nhập.</li>
-          <li>Nếu đã tra cứu mà vẫn không đăng nhập được, hãy liên hệ Zalo hỗ trợ.</li>
-          <li>Nếu muốn góp ý phát triển web, hãy bấm nút Góp ý phát triển web.</li>
-        </ol>
-        <button type="button" class="btn btn-primary" id="closeHomePopup">Tôi đã hiểu</button>
-      </section>
-    </div>
+                      <div class="container lookup-card">
+                        <p class="lookup-label">Tra cứu username trước khi đăng nhập</p>
+                        <h2>Tìm username nhanh theo tên</h2>
+                        <p>
+                          Nếu chưa đăng nhập được, hãy tra cứu username trước. Có thể dữ liệu đang bị gõ lệch dấu hoặc viết tắt so với tên của bạn
+                          (ví dụ: Phạm thành Phan, Nguyễn Văn A thành Nguyễn A).
+                        </p>
+                        <p>
+                          Muốn kiểm tra đúng thông tin của chính bạn, hãy nhập <strong>họ và tên đầy đủ</strong> để hệ thống trả về đúng kết quả của người đó.
+                        </p>
+                        <p>
+                          Nếu không tìm thấy, có thể dữ liệu đang bị lưu sai hoặc tên đang bị ghi lệch. Lúc đó bạn chỉ cần nhập <strong>tên</strong>
+                          (ví dụ: Cường) để hệ thống tìm nhanh username gần đúng.
+                        </p>
+                        <p class="lookup-tip">
+                          Khuyến khích dùng tính năng này trước khi vào trang đăng nhập để chắc chắn account của bạn đã tồn tại.
+                        </p>
 
-    <%- include("../shared/contact-buttons") %>
+                        <form id="lookupForm" class="lookup-form" autocomplete="off">
+                          <label for="lookupInput">Nhập họ và tên đầy đủ để kiểm tra, hoặc nhập tên để tìm username</label>
+                          <div class="lookup-input-row">
+                            <input
+                              type="text"
+                              id="lookupInput"
+                              name="lookupName"
+                              placeholder="Ví dụ: Cường"
+                              minlength="2"
+                              required
+                            />
+                            <button type="submit" class="btn btn-primary">Tra cứu</button>
+                          </div>
+                        </form>
 
-    <style>
-      .login-quick-hint {
-        margin: 0;
-        max-width: 640px;
-        font-size: clamp(0.95rem, 2vw, 1.06rem);
-        line-height: 1.65;
-        color: #5b473a;
-      }
+                        <p id="lookupStatus" class="lookup-status" aria-live="polite"></p>
+                        <div id="lookupResults" class="lookup-results" aria-live="polite"></div>
+                      </div>
+                    </section>
+                  </main>
 
-      .popup-card {
-        position: relative;
-      }
+                  <div class="popup-overlay" id="homeLoginGuidePopup" aria-hidden="true">
+                    <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="homePopupTitle">
+                      <button type="button" class="popup-x-btn" id="closeHomePopupTop" aria-label="Đóng popup">×</button>
+                      <h2 id="homePopupTitle">Lưu ý trước khi đăng nhập</h2>
+                      <ol>
+                        <li><strong>Tuyệt đối không tự tạo account mới</strong>. Tự tạo account sẽ không xem được điểm.</li>
+                        <li>Account của học sinh đã được trung tâm tạo sẵn, bạn chỉ cần đăng nhập.</li>
+                        <li>Ví dụ: Nguyễn Văn A thì username là NguyenVanA, mật khẩu lần đầu cũng là NguyenVanA.</li>
+                        <li>Nếu nhập sai hoặc không vào được, hãy tra cứu username theo tên ở ô bên dưới phần hướng dẫn đăng nhập.</li>
+                        <li>Nếu đã tra cứu mà vẫn không đăng nhập được, hãy liên hệ Zalo hỗ trợ.</li>
+                        <li>Nếu muốn góp ý phát triển web, hãy bấm nút Góp ý phát triển web.</li>
+                      </ol>
+                      <button type="button" class="btn btn-primary" id="closeHomePopup">Tôi đã hiểu</button>
+                    </section>
+                  </div>
 
-      .popup-x-btn {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 32px;
-        height: 32px;
-        border: none;
-        border-radius: 8px;
-        background: transparent;
-        color: #7a5a44;
-        font-size: 1.45rem;
-        line-height: 1;
-        cursor: pointer;
-      }
+                  <%- include("../shared/contact-buttons") %>
 
-      .popup-x-btn:hover {
-        background: rgba(184, 78, 31, 0.08);
-      }
-    </style>
+                  <style>
+                    .login-quick-hint {
+                      margin: 0;
+                      max-width: 640px;
+                      font-size: clamp(0.95rem, 2vw, 1.06rem);
+                      line-height: 1.65;
+                      color: #5b473a;
+                    }
 
-    <script>
-      (function () {
-        document.body.classList.add("homepage");
-        const homePopup = document.getElementById("homeLoginGuidePopup");
-        const closeHomePopup = document.getElementById("closeHomePopup");
-        const closeHomePopupTop = document.getElementById("closeHomePopupTop");
-        const lookupForm = document.getElementById("lookupForm");
-        const lookupInput = document.getElementById("lookupInput");
-        const lookupStatus = document.getElementById("lookupStatus");
-        const lookupResults = document.getElementById("lookupResults");
+                    .popup-card {
+                      position: relative;
+                    }
 
-        function openHomePopup() {
-          if (!homePopup) return;
-          homePopup.classList.add("open");
-          homePopup.setAttribute("aria-hidden", "false");
-        }
+                    .popup-x-btn {
+                      position: absolute;
+                      top: 8px;
+                      right: 8px;
+                      width: 32px;
+                      height: 32px;
+                      border: none;
+                      border-radius: 8px;
+                      background: transparent;
+                      color: #7a5a44;
+                      font-size: 1.45rem;
+                      line-height: 1;
+                      cursor: pointer;
+                    }
 
-        function hideHomePopup() {
-          if (!homePopup) return;
-          homePopup.classList.remove("open");
-          homePopup.setAttribute("aria-hidden", "true");
-        }
+                    .popup-x-btn:hover {
+                      background: rgba(184, 78, 31, 0.08);
+                    }
+                  </style>
 
-        openHomePopup();
+                  <script>
+                    (function () {
+                      document.body.classList.add("homepage");
+                      const homePopup = document.getElementById("homeLoginGuidePopup");
+                      const closeHomePopup = document.getElementById("closeHomePopup");
+                      const closeHomePopupTop = document.getElementById("closeHomePopupTop");
+                      const lookupForm = document.getElementById("lookupForm");
+                      const lookupInput = document.getElementById("lookupInput");
+                      const lookupStatus = document.getElementById("lookupStatus");
+                      const lookupResults = document.getElementById("lookupResults");
 
-        if (closeHomePopup) {
-          closeHomePopup.addEventListener("click", hideHomePopup);
-        }
+                      function openHomePopup() {
+                        if (!homePopup) return;
+                        homePopup.classList.add("open");
+                        homePopup.setAttribute("aria-hidden", "false");
+                      }
 
-        if (closeHomePopupTop) {
-          closeHomePopupTop.addEventListener("click", hideHomePopup);
-        }
+                      function hideHomePopup() {
+                        if (!homePopup) return;
+                        homePopup.classList.remove("open");
+                        homePopup.setAttribute("aria-hidden", "true");
+                      }
 
-        if (homePopup) {
-          homePopup.addEventListener("click", function (event) {
-            if (event.target === homePopup) {
-              hideHomePopup();
-            }
-          });
-        }
+                      openHomePopup();
 
-        function escapeHtml(value) {
-          return String(value || "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/\"/g, "&quot;")
-            .replace(/'/g, "&#39;");
-        }
+                      if (closeHomePopup) {
+                        closeHomePopup.addEventListener("click", hideHomePopup);
+                      }
 
-        function renderLookupResults(items) {
-          if (!lookupResults) {
-            return;
-          }
+                      if (closeHomePopupTop) {
+                        closeHomePopupTop.addEventListener("click", hideHomePopup);
+                      }
 
-          if (!Array.isArray(items) || items.length === 0) {
-            lookupResults.innerHTML = "";
-            if (lookupStatus) {
-              lookupStatus.textContent = "Chưa thấy kết quả phù hợp. Bạn thử tên gần đúng khác nhé.";
-            }
-            return;
-          }
+                      if (homePopup) {
+                        homePopup.addEventListener("click", function (event) {
+                          if (event.target === homePopup) {
+                            hideHomePopup();
+                          }
+                        });
+                      }
 
-          const rows = items
-            .map(
-              (item) =>
-                `<article class="lookup-item"><p class="lookup-fullname">${escapeHtml(item.fullName)}</p><p class="lookup-username">Username: <strong>${escapeHtml(item.username)}</strong></p></article>`
-            )
-            .join("");
+                      function escapeHtml(value) {
+                        return String(value || "")
+                          .replace(/&/g, "&amp;")
+                          .replace(/</g, "&lt;")
+                          .replace(/>/g, "&gt;")
+                          .replace(/\"/g, "&quot;")
+                          .replace(/'/g, "&#39;");
+                      }
 
-          lookupResults.innerHTML = rows;
-          if (lookupStatus) {
-            const isExact = items.every((item) => item.matchType === "exact");
-            lookupStatus.textContent = isExact
-              ? `Đã tìm thấy đúng thông tin theo họ và tên (${items.length} kết quả).`
-              : `Đã tìm thấy ${items.length} kết quả phù hợp.`;
-          }
-        }
+                      function renderLookupResults(items) {
+                        if (!lookupResults) {
+                          return;
+                        }
 
-        if (lookupForm && lookupInput && lookupResults) {
-          lookupForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
+                        if (!Array.isArray(items) || items.length === 0) {
+                          lookupResults.innerHTML = "";
+                          if (lookupStatus) {
+                            lookupStatus.textContent = "Chưa thấy kết quả phù hợp. Bạn thử tên gần đúng khác nhé.";
+                          }
+                          return;
+                        }
 
-            const keyword = lookupInput.value.trim();
-            if (!keyword) {
-              return;
-            }
+                        const rows = items
+                          .map(
+                            (item) =>
+                              `<article class="lookup-item"><p class="lookup-fullname">${escapeHtml(item.fullName)}</p><p class="lookup-username">Username: <strong>${escapeHtml(item.username)}</strong></p></article>`
+                          )
+                          .join("");
 
-            if (lookupStatus) {
-              lookupStatus.textContent = "Đang tra cứu...";
-            }
+                        lookupResults.innerHTML = rows;
+                        if (lookupStatus) {
+                          const isExact = items.every((item) => item.matchType === "exact");
+                          lookupStatus.textContent = isExact
+                            ? `Đã tìm thấy đúng thông tin theo họ và tên (${items.length} kết quả).`
+                            : `Đã tìm thấy ${items.length} kết quả phù hợp.`;
+                        }
+                      }
 
-            try {
-              const response = await fetch(`/api/home/find-account?q=${encodeURIComponent(keyword)}`);
-              const payload = await response.json().catch(() => ({}));
+                      if (lookupForm && lookupInput && lookupResults) {
+                        lookupForm.addEventListener("submit", async function (event) {
+                          event.preventDefault();
 
-              if (!response.ok) {
-                lookupResults.innerHTML = "";
-                if (lookupStatus) {
-                  lookupStatus.textContent = payload.error || "Không thể tra cứu lúc này.";
-                }
-                return;
-              }
+                          const keyword = lookupInput.value.trim();
+                          if (!keyword) {
+                            return;
+                          }
 
-              renderLookupResults(payload.items || []);
-            } catch (error) {
-              console.error("Lookup username error:", error);
-              lookupResults.innerHTML = "";
-              if (lookupStatus) {
-                lookupStatus.textContent = "Có lỗi kết nối. Vui lòng thử lại.";
-              }
-            }
-          });
-        }
+                          if (lookupStatus) {
+                            lookupStatus.textContent = "Đang tra cứu...";
+                          }
 
-        // Countdown timer
-        const targetDate = new Date(2026, 5, 11, 0, 0, 0).getTime();
-        const daysEl = document.getElementById("daysLeft");
-        const hoursEl = document.getElementById("hoursLeft");
-        const minutesEl = document.getElementById("minutesLeft");
-        const secondsEl = document.getElementById("secondsLeft");
+                          try {
+                            const response = await fetch(`/api/home/find-account?q=${encodeURIComponent(keyword)}`);
+                            const payload = await response.json().catch(() => ({}));
 
-        if (daysEl && hoursEl && minutesEl && secondsEl) {
-          function pad(value) {
-            return String(value).padStart(2, "0");
-          }
+                            if (!response.ok) {
+                              lookupResults.innerHTML = "";
+                              if (lookupStatus) {
+                                lookupStatus.textContent = payload.error || "Không thể tra cứu lúc này.";
+                              }
+                              return;
+                            }
 
-          function updateCountdown() {
-            const now = Date.now();
-            const diff = Math.max(0, targetDate - now);
+                            renderLookupResults(payload.items || []);
+                          } catch (error) {
+                            console.error("Lookup username error:", error);
+                            lookupResults.innerHTML = "";
+                            if (lookupStatus) {
+                              lookupStatus.textContent = "Có lỗi kết nối. Vui lòng thử lại.";
+                            }
+                          }
+                        });
+                      }
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
+                      const targetDate = new Date(2026, 5, 11, 0, 0, 0).getTime();
+                      const daysEl = document.getElementById("daysLeft");
+                      const hoursEl = document.getElementById("hoursLeft");
+                      const minutesEl = document.getElementById("minutesLeft");
+                      const secondsEl = document.getElementById("secondsLeft");
 
-            daysEl.textContent = days;
-            hoursEl.textContent = pad(hours);
-            minutesEl.textContent = pad(minutes);
-            secondsEl.textContent = pad(seconds);
-          }
+                      if (daysEl && hoursEl && minutesEl && secondsEl) {
+                        function pad(value) {
+                          return String(value).padStart(2, "0");
+                        }
 
-          updateCountdown();
-          setInterval(updateCountdown, 1000);
-        }
-      })();
-    </script>
+                        function updateCountdown() {
+                          const now = Date.now();
+                          const diff = Math.max(0, targetDate - now);
 
-  </body>
-</html>
+                          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                          const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                          const seconds = Math.floor((diff / 1000) % 60);
+
+                          daysEl.textContent = days;
+                          hoursEl.textContent = pad(hours);
+                          minutesEl.textContent = pad(minutes);
+                          secondsEl.textContent = pad(seconds);
+                        }
+
+                        updateCountdown();
+                        setInterval(updateCountdown, 1000);
+                      }
+                    })();
+                  </script>
+
+                </body>
+              </html>

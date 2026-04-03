@@ -174,6 +174,27 @@ body.homepage .menu > .btn {
   animation: reveal-up 0.8s ease-out both;
 }
 
+.hero-eyebrow {
+  display: inline-flex;
+  margin: 0 0 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15, 111, 116, 0.1);
+  color: var(--teal);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.hero-lead {
+  max-width: 620px;
+  margin: 0;
+  font-size: clamp(1rem, 1.8vw, 1.1rem);
+  line-height: 1.75;
+  color: var(--ink-sub);
+}
+
 .kicker {
   margin: 0;
   font-size: clamp(1.15rem, 1.5vw, 1.22rem);
@@ -297,20 +318,34 @@ body.homepage .menu > .btn {
 }
 
 .lookup-section {
-  padding: 0 0 32px;
+  padding: 18px 0 30px;
 }
 
 .lookup-card {
-  padding: 22px;
-  border-radius: 22px;
+  padding: 22px 22px 20px;
+  border-radius: 24px;
   border: 1px solid rgba(190, 160, 136, 0.34);
-  background: linear-gradient(170deg, rgba(255, 255, 255, 0.9), rgba(255, 247, 238, 0.82));
-  box-shadow: 0 12px 28px rgba(84, 57, 38, 0.1);
+  background:
+    linear-gradient(170deg, rgba(255, 255, 255, 0.95), rgba(255, 247, 238, 0.9));
+  box-shadow: 0 14px 32px rgba(84, 57, 38, 0.1);
+}
+
+.lookup-label {
+  display: inline-flex;
+  margin: 0 0 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(184, 78, 31, 0.08);
+  color: #8f360d;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .lookup-card h2 {
   margin: 0;
-  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-size: clamp(1.3rem, 2.5vw, 1.85rem);
   color: #7f2f08;
 }
 
@@ -340,6 +375,17 @@ body.homepage .menu > .btn {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
+}
+
+.lookup-input-row input {
+  border-radius: 14px;
+  padding: 13px 15px;
+}
+
+.lookup-input-row .btn {
+  white-space: nowrap;
+  border-radius: 14px;
+  padding-inline: 18px;
 }
 
 .lookup-input-row input {
@@ -749,7 +795,7 @@ td {
   }
 
   .hero-content {
-    padding: 18px 0 8px;
+    padding: 18px 0 6px;
   }
 
   .home-hero-layout {
@@ -772,8 +818,26 @@ td {
     border-radius: 16px;
   }
 
+  .lookup-label {
+    font-size: 0.72rem;
+    padding: 5px 10px;
+  }
+
   .lookup-input-row {
     grid-template-columns: 1fr;
+  }
+
+  .lookup-input-row .btn {
+    width: 100%;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+  }
+
+  .hero-lead {
+    font-size: 0.98rem;
   }
 
   .hero-content h1 {
