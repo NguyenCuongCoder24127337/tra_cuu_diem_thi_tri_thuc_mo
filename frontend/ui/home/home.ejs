@@ -26,6 +26,37 @@
           </aside>
         </div>
       </section>
+
+      <section class="lookup-section" aria-label="Tra cứu username theo tên">
+        <div class="container lookup-card">
+          <h2>Tìm username nhanh theo tên</h2>
+          <p>
+            Đôi khi dữ liệu có thể bị gõ lệch dấu hoặc viết tắt (ví dụ: Phạm thành Phan, Nguyễn Văn A thành Nguyễn A).
+            Nếu chưa tìm được account của mình, bạn hãy nhập <strong>tên gọi cuối</strong> (ví dụ: Cường) để hệ thống gợi ý các username gần đúng.
+          </p>
+          <p class="lookup-tip">
+            Khuyến khích dùng tính năng này trước khi vào trang đăng nhập để chắc chắn account của bạn đã tồn tại.
+          </p>
+
+          <form id="lookupForm" class="lookup-form" autocomplete="off">
+            <label for="lookupInput">Nhập tên để tìm username</label>
+            <div class="lookup-input-row">
+              <input
+                type="text"
+                id="lookupInput"
+                name="lookupName"
+                placeholder="Ví dụ: Cường"
+                minlength="2"
+                required
+              />
+              <button type="submit" class="btn btn-primary">Tra cứu</button>
+            </div>
+          </form>
+
+          <p id="lookupStatus" class="lookup-status" aria-live="polite"></p>
+          <div id="lookupResults" class="lookup-results" aria-live="polite"></div>
+        </div>
+      </section>
     </main>
 
     <%- include("../shared/contact-buttons") %>
@@ -33,6 +64,81 @@
     <script>
       (function () {
         document.body.classList.add("homepage");
+        const lookupForm = document.getElementById("lookupForm");
+        const lookupInput = document.getElementById("lookupInput");
+        const lookupStatus = document.getElementById("lookupStatus");
+        const lookupResults = document.getElementById("lookupResults");
+
+        function escapeHtml(value) {
+          return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/\"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+        }
+
+        function renderLookupResults(items) {
+          if (!lookupResults) {
+            return;
+          }
+
+          if (!Array.isArray(items) || items.length === 0) {
+            lookupResults.innerHTML = "";
+            if (lookupStatus) {
+              lookupStatus.textContent = "Chưa thấy kết quả phù hợp. Bạn thử tên gần đúng khác nhé.";
+            }
+            return;
+          }
+
+          const rows = items
+            .map(
+              (item) =>
+                `<article class="lookup-item"><p class="lookup-fullname">${escapeHtml(item.fullName)}</p><p class="lookup-username">Username: <strong>${escapeHtml(item.username)}</strong></p></article>`
+            )
+            .join("");
+
+          lookupResults.innerHTML = rows;
+          if (lookupStatus) {
+            lookupStatus.textContent = `Đã tìm thấy ${items.length} kết quả phù hợp.`;
+          }
+        }
+
+        if (lookupForm && lookupInput && lookupResults) {
+          lookupForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const keyword = lookupInput.value.trim();
+            if (!keyword) {
+              return;
+            }
+
+            if (lookupStatus) {
+              lookupStatus.textContent = "Đang tra cứu...";
+            }
+
+            try {
+              const response = await fetch(`/api/home/find-account?q=${encodeURIComponent(keyword)}`);
+              const payload = await response.json().catch(() => ({}));
+
+              if (!response.ok) {
+                lookupResults.innerHTML = "";
+                if (lookupStatus) {
+                  lookupStatus.textContent = payload.error || "Không thể tra cứu lúc này.";
+                }
+                return;
+              }
+
+              renderLookupResults(payload.items || []);
+            } catch (error) {
+              console.error("Lookup username error:", error);
+              lookupResults.innerHTML = "";
+              if (lookupStatus) {
+                lookupStatus.textContent = "Có lỗi kết nối. Vui lòng thử lại.";
+              }
+            }
+          });
+        }
 
         // Countdown timer
         const targetDate = new Date(2026, 5, 11, 0, 0, 0).getTime();

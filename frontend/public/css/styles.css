@@ -296,6 +296,86 @@ body.homepage .menu > .btn {
   color: var(--ink-sub);
 }
 
+.lookup-section {
+  padding: 0 0 32px;
+}
+
+.lookup-card {
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(190, 160, 136, 0.34);
+  background: linear-gradient(170deg, rgba(255, 255, 255, 0.9), rgba(255, 247, 238, 0.82));
+  box-shadow: 0 12px 28px rgba(84, 57, 38, 0.1);
+}
+
+.lookup-card h2 {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  color: #7f2f08;
+}
+
+.lookup-card p {
+  margin: 10px 0 0;
+  color: #5b473a;
+  line-height: 1.65;
+}
+
+.lookup-tip {
+  font-weight: 700;
+  color: #7f2f08;
+}
+
+.lookup-form {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.lookup-form label {
+  font-weight: 700;
+  color: #3f2e23;
+}
+
+.lookup-input-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.lookup-input-row input {
+  margin: 0;
+}
+
+.lookup-status {
+  min-height: 1.6em;
+  margin-top: 10px;
+  font-weight: 700;
+  color: #7f2f08;
+}
+
+.lookup-results {
+  display: grid;
+  gap: 10px;
+}
+
+.lookup-item {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #ead5c4;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.lookup-fullname {
+  margin: 0;
+  font-weight: 800;
+  color: #2b2019;
+}
+
+.lookup-username {
+  margin: 4px 0 0;
+  color: #5b473a;
+}
+
 .card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 252, 247, 0.92));
   border: 1px solid var(--line);
@@ -685,6 +765,15 @@ td {
 
   .countdown-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lookup-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .lookup-input-row {
+    grid-template-columns: 1fr;
   }
 
   .hero-content h1 {
