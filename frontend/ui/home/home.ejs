@@ -5,6 +5,40 @@
     <%- include("../shared/header", { user, homepage: true }) %>
 
     <main>
+      <section class="lookup-section" aria-label="Tra cứu username theo tên">
+        <div class="container lookup-card">
+          <h2>Tìm username nhanh theo tên</h2>
+          <p>
+            Đôi khi dữ liệu có thể bị gõ lệch dấu hoặc viết tắt (ví dụ: Phạm thành Phan, Nguyễn Văn A thành Nguyễn A).
+            Nếu chưa tìm được account của mình, bạn hãy nhập <strong>tên gọi cuối</strong> (ví dụ: Cường) để hệ thống gợi ý các username gần đúng.
+          </p>
+          <p>
+            Muốn kiểm tra chính xác thông tin của chính bạn, hãy nhập <strong>đúng họ và tên đầy đủ</strong> để hệ thống trả về đúng kết quả của người đó.
+          </p>
+          <p class="lookup-tip">
+            Khuyến khích dùng tính năng này trước khi vào trang đăng nhập để chắc chắn account của bạn đã tồn tại.
+          </p>
+
+          <form id="lookupForm" class="lookup-form" autocomplete="off">
+            <label for="lookupInput">Nhập đúng họ và tên để kiểm tra chính xác, hoặc nhập tên để tìm nhanh username</label>
+            <div class="lookup-input-row">
+              <input
+                type="text"
+                id="lookupInput"
+                name="lookupName"
+                placeholder="Ví dụ: Cường"
+                minlength="2"
+                required
+              />
+              <button type="submit" class="btn btn-primary">Tra cứu</button>
+            </div>
+          </form>
+
+          <p id="lookupStatus" class="lookup-status" aria-live="polite"></p>
+          <div id="lookupResults" class="lookup-results" aria-live="polite"></div>
+        </div>
+      </section>
+
       <section class="hero">
         <div class="container hero-content home-hero-layout">
           <div class="hero-copy">
@@ -23,37 +57,6 @@
               <div><strong id="secondsLeft">0</strong><span>Giây</span></div>
             </div>
           </aside>
-        </div>
-      </section>
-
-      <section class="lookup-section" aria-label="Tra cứu username theo tên">
-        <div class="container lookup-card">
-          <h2>Tìm username nhanh theo tên</h2>
-          <p>
-            Đôi khi dữ liệu có thể bị gõ lệch dấu hoặc viết tắt (ví dụ: Phạm thành Phan, Nguyễn Văn A thành Nguyễn A).
-            Nếu chưa tìm được account của mình, bạn hãy nhập <strong>tên gọi cuối</strong> (ví dụ: Cường) để hệ thống gợi ý các username gần đúng.
-          </p>
-          <p class="lookup-tip">
-            Khuyến khích dùng tính năng này trước khi vào trang đăng nhập để chắc chắn account của bạn đã tồn tại.
-          </p>
-
-          <form id="lookupForm" class="lookup-form" autocomplete="off">
-            <label for="lookupInput">Nhập tên để tìm username</label>
-            <div class="lookup-input-row">
-              <input
-                type="text"
-                id="lookupInput"
-                name="lookupName"
-                placeholder="Ví dụ: Cường"
-                minlength="2"
-                required
-              />
-              <button type="submit" class="btn btn-primary">Tra cứu</button>
-            </div>
-          </form>
-
-          <p id="lookupStatus" class="lookup-status" aria-live="polite"></p>
-          <div id="lookupResults" class="lookup-results" aria-live="polite"></div>
         </div>
       </section>
     </main>
@@ -181,7 +184,10 @@
 
           lookupResults.innerHTML = rows;
           if (lookupStatus) {
-            lookupStatus.textContent = `Đã tìm thấy ${items.length} kết quả phù hợp.`;
+            const isExact = items.every((item) => item.matchType === "exact");
+            lookupStatus.textContent = isExact
+              ? `Đã tìm thấy đúng thông tin theo họ và tên (${items.length} kết quả).`
+              : `Đã tìm thấy ${items.length} kết quả phù hợp.`;
           }
         }
 

@@ -104,6 +104,31 @@ async function lookupAccountsByFirstName(rawKeyword) {
   }
 
   const students = await model.listStudentsForLookup();
+  const exactMatches = [];
+
+  for (const item of students) {
+    const username = item.username || item.account;
+    if (!username) {
+      continue;
+    }
+
+    const normalizedFullName = normalizeVietnamese(item.full_name);
+    if (normalizedFullName && normalizedFullName === keyword) {
+      exactMatches.push({
+        fullName: item.full_name,
+        username,
+        matchType: "exact",
+      });
+    }
+  }
+
+  if (exactMatches.length > 0) {
+    exactMatches.sort((a, b) =>
+      String(a.fullName || "").localeCompare(String(b.fullName || ""), "vi")
+    );
+    return exactMatches.slice(0, 30);
+  }
+
   const matched = [];
 
   for (const item of students) {
@@ -135,6 +160,7 @@ async function lookupAccountsByFirstName(rawKeyword) {
   return matched.slice(0, 30).map((item) => ({
     fullName: item.fullName,
     username: item.username,
+    matchType: "fuzzy",
   }));
 }
 
