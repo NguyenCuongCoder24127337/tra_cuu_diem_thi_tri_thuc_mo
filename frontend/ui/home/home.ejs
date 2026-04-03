@@ -10,6 +10,10 @@
           <div class="hero-copy">
             <p class="kicker">Hệ thống tra cứu điểm thi học sinh</p>
 
+            <p class="login-quick-hint">
+              Username của bạn là <strong>account do trung tâm cấp</strong>. Nếu đăng nhập lần đầu, mật khẩu mặc định sẽ trùng username.
+            </p>
+
             <a href="/login?guide=1" class="btn btn-primary btn-large" id="loginBtn">Vào trang đăng nhập</a>
           </div>
 
@@ -59,15 +63,95 @@
       </section>
     </main>
 
+    <div class="popup-overlay" id="homeLoginGuidePopup" aria-hidden="true">
+      <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="homePopupTitle">
+        <button type="button" class="popup-x-btn" id="closeHomePopupTop" aria-label="Đóng popup">×</button>
+        <h2 id="homePopupTitle">Lưu ý trước khi đăng nhập</h2>
+        <ol>
+          <li>Hãy tra cứu username theo tên ngay bên dưới để chắc chắn account của bạn đã có trong hệ thống.</li>
+          <li>Nếu đăng nhập lần đầu: mật khẩu mặc định sẽ trùng với username.</li>
+          <li>Nếu bạn nhập sai account hoặc mật khẩu, có thể do tên bị gõ lệch trong dữ liệu.</li>
+          <li>Khi đó, hãy bấm logo ở góc trái để quay về homepage và dùng ô tra cứu username theo tên.</li>
+        </ol>
+        <button type="button" class="btn btn-primary" id="closeHomePopup">Tôi đã hiểu</button>
+      </section>
+    </div>
+
     <%- include("../shared/contact-buttons") %>
+
+    <style>
+      .login-quick-hint {
+        margin: 0;
+        max-width: 640px;
+        font-size: clamp(0.95rem, 2vw, 1.06rem);
+        line-height: 1.65;
+        color: #5b473a;
+      }
+
+      .popup-card {
+        position: relative;
+      }
+
+      .popup-x-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: #7a5a44;
+        font-size: 1.45rem;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .popup-x-btn:hover {
+        background: rgba(184, 78, 31, 0.08);
+      }
+    </style>
 
     <script>
       (function () {
         document.body.classList.add("homepage");
+        const homePopup = document.getElementById("homeLoginGuidePopup");
+        const closeHomePopup = document.getElementById("closeHomePopup");
+        const closeHomePopupTop = document.getElementById("closeHomePopupTop");
         const lookupForm = document.getElementById("lookupForm");
         const lookupInput = document.getElementById("lookupInput");
         const lookupStatus = document.getElementById("lookupStatus");
         const lookupResults = document.getElementById("lookupResults");
+
+        function openHomePopup() {
+          if (!homePopup) return;
+          homePopup.classList.add("open");
+          homePopup.setAttribute("aria-hidden", "false");
+        }
+
+        function hideHomePopup() {
+          if (!homePopup) return;
+          homePopup.classList.remove("open");
+          homePopup.setAttribute("aria-hidden", "true");
+        }
+
+        openHomePopup();
+
+        if (closeHomePopup) {
+          closeHomePopup.addEventListener("click", hideHomePopup);
+        }
+
+        if (closeHomePopupTop) {
+          closeHomePopupTop.addEventListener("click", hideHomePopup);
+        }
+
+        if (homePopup) {
+          homePopup.addEventListener("click", function (event) {
+            if (event.target === homePopup) {
+              hideHomePopup();
+            }
+          });
+        }
 
         function escapeHtml(value) {
           return String(value || "")
