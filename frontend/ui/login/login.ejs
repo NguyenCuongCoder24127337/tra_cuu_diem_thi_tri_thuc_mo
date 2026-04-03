@@ -60,7 +60,7 @@
 
         <% if (error) { %>
         <p class="help-inline">
-          Nếu đăng nhập chưa thành công, hãy xem gợi ý trong popup và tra cứu username ở homepage trước khi thử lại.
+          Nếu đăng nhập chưa thành công, hãy xem popup hướng dẫn: tra cứu username ở homepage trước, chưa được thì liên hệ Zalo.
         </p>
         <% } %>
       </section>
@@ -71,11 +71,13 @@
         <button type="button" class="popup-x-btn" id="closePopupTop" aria-label="Đóng popup">×</button>
         <h2 id="popupTitle">Hướng dẫn đăng nhập lần đầu</h2>
         <ol>
-          <li>Nếu bạn nhập sai account hoặc mật khẩu, có thể account của bạn đang bị gõ lệch tên trong dữ liệu.</li>
-          <li>Hãy bấm logo ở góc trên bên trái để quay về homepage và dùng ô tra cứu username theo tên.</li>
-          <li>Học sinh học tại trung tâm không cần tự tạo tài khoản, trung tâm đã cấp sẵn account.</li>
-          <li>Nếu đăng nhập lần đầu: mật khẩu mặc định thường trùng với username/account.</li>
-          <li>Sau khi đăng nhập thành công, hệ thống sẽ yêu cầu đổi mật khẩu mới.</li>
+          <li><strong>Tuyệt đối không tự tạo account mới</strong>. Nếu tự tạo thì sẽ không xem được điểm.</li>
+          <li>Account đã được trung tâm tạo sẵn, bạn chỉ cần đăng nhập.</li>
+          <li>Ví dụ: học sinh <strong>Nguyễn Văn A</strong> thì username là <strong>NguyenVanA</strong>, mật khẩu lần đầu là <strong>NguyenVanA</strong>.</li>
+          <li>Nếu không vào được, có thể dữ liệu tên bị lệch. Hãy bấm logo góc trái để về homepage và tra cứu username theo tên ở ô bên dưới phần hướng dẫn đăng nhập.</li>
+          <li>Nếu đã tra cứu mà vẫn chưa đăng nhập được, hãy liên hệ <strong>Zalo hỗ trợ</strong>.</li>
+          <li>Nếu muốn đóng góp cải thiện website, hãy bấm nút <strong>Góp ý phát triển web</strong>.</li>
+          <li>Sau khi đăng nhập thành công, hệ thống sẽ yêu cầu đổi mật khẩu mới để bảo mật.</li>
         </ol>
         <button type="button" class="btn btn-primary" id="closePopup">Tôi đã hiểu</button>
       </section>
