@@ -6,38 +6,69 @@
 
     <main class="container auth-wrap">
       <section class="auth-card">
-        <h1>Đăng nhập học sinh</h1>
-        <p class="muted">Tài khoản mặc định: account và mật khẩu do nhà trường cấp.</p>
+        <h1>Đăng nhập</h1>
+        <p class="muted">Tài khoản của bạn đã được trung tâm tạo sẵn. Nếu bạn không phải học sinh của trung tâm, web này không có tài khoản cho bạn.</p>
 
-        <% if (createdStudent) { %>
-        <p class="alert alert-success">
-          Tạo tài khoản thành công cho <strong><%= createdStudent.fullName %></strong>.
-          Tài khoản: <strong><%= createdStudent.account %></strong>. Mật khẩu mặc định: <strong><%= createdStudent.defaultPassword %></strong>.
-        </p>
-        <% } %>
-
-        <div class="example-box">
-          <p><strong>Ví dụ cách đăng nhập:</strong></p>
-          <p>Tên học sinh: <strong>Nguyễn Văn A</strong></p>
-          <p>Account mặc định: <strong>NguyenVanA</strong></p>
-          <p>Mật khẩu mặc định: <strong>NguyenVanA</strong></p>
-          <p class="example-note">Lưu ý: Nếu đã đổi mật khẩu trước đó thì dùng mật khẩu mới, không dùng mật khẩu mặc định.</p>
+        <div class="info-box" style="background: #f0f7ff; border: 1px solid #90caf9; padding: 12px; border-radius: 10px; margin: 12px 0; font-size: 0.95rem; line-height: 1.6;">
+          <p style="margin: 0 0 6px 0;"><strong>ℹ️ Đăng nhập mặc định cho học sinh</strong></p>
+          <p style="margin: 0;">Ví dụ: tên bạn là <strong>Nguyễn Văn A</strong> thì <strong>username</strong> và <strong>password</strong> đều là <strong>NguyenVanA</strong>.</p>
+          <p style="margin: 6px 0 0 0;">Nói đơn giản: bạn dùng đúng tên <strong>NguyenVanA</strong> cho cả <strong>account</strong> lẫn <strong>password</strong>.</p>
         </div>
 
         <% if (error) { %>
-        <p class="alert"><%= error %></p>
+        <p class="alert alert-error">
+          <strong>❌ Lỗi đăng nhập</strong><br/>
+          <%= error %>
+          <br/>
+          <small style="display: block; margin-top: 6px;">
+            <strong>Gợi ý:</strong>
+            <% if (errorCode === 'WRONG_PASSWORD') { %>
+              Có thể bạn nhập sai mật khẩu hoặc đã có người đổi mật khẩu account của bạn. Liên hệ Zalo để lấy lại.
+            <% } else if (errorCode === 'ACCOUNT_NOT_FOUND') { %>
+              Có thể bạn nhập nhầm tên, hoặc hệ thống lưu tên bị sai ký tự, ví dụ họ <strong>Phạm</strong> bị lưu thành <strong>Phan</strong>.
+            <% } else { %>
+              Nếu vấn đề tiếp tục, liên hệ Zalo hỗ trợ.
+            <% } %>
+          </small>
+        </p>
         <% } %>
 
-        <form action="/login" method="post" class="form-grid" id="loginForm">
+        <form action="/login" method="post" class="form-grid" id="loginForm" autocomplete="off" novalidate>
           <label>
-            Account
-            <input type="text" name="account" required />
+            Username
+            <input 
+              type="text" 
+              name="account" 
+              id="accountInput"
+              placeholder="Ví dụ: BuiQuangNhat"
+              required 
+              minlength="2"
+              autocomplete="off"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
+              data-lpignore="true"
+              aria-label="Username"
+            />
           </label>
 
           <label>
             Mật khẩu
             <div class="password-field">
-              <input type="password" name="password" id="loginPassword" required />
+              <input 
+                type="password" 
+                name="password" 
+                id="loginPassword" 
+                  placeholder="Mật khẩu ban đầu = BuiQuangNhat"
+                required
+                minlength="3"
+                autocomplete="new-password"
+                autocapitalize="off"
+                autocorrect="off"
+                spellcheck="false"
+                data-lpignore="true"
+                aria-label="Mật khẩu"
+              />
               <button
                 type="button"
                 class="password-toggle"
@@ -55,45 +86,265 @@
             </div>
           </label>
 
-          <button type="submit" class="btn btn-primary">Đăng nhập</button>
+          <button type="submit" class="btn btn-primary" id="loginSubmitBtn">
+            <span id="submitBtnText">Đăng nhập</span>
+            <span id="submitBtnLoading" style="display: none;">Đang đăng nhập...</span>
+          </button>
         </form>
 
-        <% if (error) { %>
-        <p class="help-inline">
-          Nếu đăng nhập chưa thành công, hãy xem popup hướng dẫn: tra cứu username ở homepage trước, chưa được thì liên hệ Zalo.
-        </p>
-        <% } %>
       </section>
     </main>
 
-    <div class="popup-overlay" id="firstLoginPopup" aria-hidden="true">
-      <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-        <button type="button" class="popup-x-btn" id="closePopupTop" aria-label="Đóng popup">×</button>
-        <h2 id="popupTitle">Hướng dẫn đăng nhập lần đầu</h2>
-        <ol>
-          <li><strong>Tuyệt đối không tự tạo account mới</strong>. Nếu tự tạo thì sẽ không xem được điểm.</li>
-          <li>Account đã được trung tâm tạo sẵn, bạn chỉ cần đăng nhập.</li>
-          <li>Ví dụ: học sinh <strong>Nguyễn Văn A</strong> thì username là <strong>NguyenVanA</strong>, mật khẩu lần đầu là <strong>NguyenVanA</strong>.</li>
-          <li>Nếu không vào được, có thể dữ liệu tên bị lệch. Hãy bấm logo góc trái để về homepage và tra cứu username theo tên ở ô bên dưới phần hướng dẫn đăng nhập.</li>
-          <li>Nếu đã tra cứu mà vẫn chưa đăng nhập được, hãy liên hệ <strong>Zalo hỗ trợ</strong>.</li>
-          <li>Nếu muốn đóng góp cải thiện website, hãy bấm nút <strong>Góp ý phát triển web</strong>.</li>
-          <li>Sau khi đăng nhập thành công, hệ thống sẽ yêu cầu đổi mật khẩu mới để bảo mật.</li>
-        </ol>
-        <button type="button" class="btn btn-primary" id="closePopup">Tôi đã hiểu</button>
+    <div class="popup-overlay" id="loginNoticePopup" aria-hidden="true">
+      <section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="loginNoticeTitle">
+        <button type="button" class="popup-x-btn" id="loginNoticeCloseTop" aria-label="Đóng thông báo">×</button>
+        <h2 id="loginNoticeTitle">Thông báo</h2>
+        <div id="loginNoticeBody" class="popup-content"></div>
+        <div class="popup-buttons">
+          <button type="button" class="btn btn-primary" id="loginNoticePrimary">Đã hiểu</button>
+          <button type="button" class="btn btn-outline" id="loginNoticeSecondary">Đóng</button>
+        </div>
       </section>
     </div>
 
     <script>
       (function () {
+        const accountInput = document.querySelector('input[name="account"]');
         const passwordInput = document.getElementById("loginPassword");
         const togglePasswordBtn = document.getElementById("toggleLoginPassword");
-        const popup = document.getElementById("firstLoginPopup");
-        const closeTopBtn = document.getElementById("closePopupTop");
-        const closeBtn = document.getElementById("closePopup");
-        const hasLoginError = Boolean(document.querySelector(".alert:not(.alert-success)"));
-        const params = new URLSearchParams(window.location.search);
-        const fromGuideButton = params.get("guide") === "1";
+        const loginForm = document.getElementById("loginForm");
+        const loginSubmitBtn = document.getElementById("loginSubmitBtn");
+        const errorAlert = document.querySelector(".alert-error");
+        const noticePopup = document.getElementById("loginNoticePopup");
+        const noticeTitle = document.getElementById("loginNoticeTitle");
+        const noticeBody = document.getElementById("loginNoticeBody");
+        const noticePrimary = document.getElementById("loginNoticePrimary");
+        const noticeSecondary = document.getElementById("loginNoticeSecondary");
+        const noticeCloseTop = document.getElementById("loginNoticeCloseTop");
+        const initialErrorCode = "<%= errorCode || '' %>";
+        const lookupCompletedKey = "lookupCompleted";
+        const returningUserKey = "returningUser";
+        const autoLoginAccountKey = "autoLoginAccount";
+        const autoLoginPasswordKey = "autoLoginPassword";
+        const lookupCompleted = localStorage.getItem(lookupCompletedKey) === "1";
+        const isReturningUser = localStorage.getItem(returningUserKey) === "1";
+        const autofillRequested = new URLSearchParams(window.location.search).get("autofill") === "1";
+        const lookupRequested = new URLSearchParams(window.location.search).get("lookup") === "1";
 
+        function goToLookupPage() {
+          window.location.href = "/?lookup=1";
+        }
+
+        // Trim whitespace on blur
+        if (accountInput) {
+          accountInput.addEventListener("blur", () => {
+            accountInput.value = accountInput.value.trim();
+          });
+        }
+
+        // Check if coming from lookup with auto-login
+        const autoLoginAccount =
+          sessionStorage.getItem(autoLoginAccountKey) || sessionStorage.getItem("autoLoginUsername") || "";
+        const autoLoginPassword =
+          sessionStorage.getItem(autoLoginPasswordKey) || sessionStorage.getItem("autoLoginUsername") || "";
+        if (autoLoginAccount && accountInput) {
+          accountInput.value = autoLoginAccount;
+          if (passwordInput) {
+            passwordInput.value = autoLoginPassword || autoLoginAccount;
+          }
+
+          sessionStorage.removeItem(autoLoginAccountKey);
+          sessionStorage.removeItem(autoLoginPasswordKey);
+          sessionStorage.removeItem("autoLoginUsername");
+
+          window.setTimeout(() => {
+            if (loginForm && accountInput && passwordInput) {
+              accountInput.value = autoLoginAccount;
+              passwordInput.value = autoLoginPassword || autoLoginAccount;
+            }
+          }, 80);
+
+          if (lookupCompleted || autofillRequested) {
+            window.setTimeout(() => {
+              if (loginForm) {
+                loginForm.requestSubmit();
+              }
+            }, 220);
+          }
+        }
+
+        function openNoticePopup({ title, body, primaryText, secondaryText, primaryAction, secondaryAction }) {
+          if (!noticePopup) return;
+
+          if (noticeTitle && title) {
+            noticeTitle.textContent = title;
+          }
+
+          if (noticeBody) {
+            noticeBody.innerHTML = body || "";
+          }
+
+          if (noticePrimary) {
+            noticePrimary.textContent = primaryText || "Đã hiểu";
+            noticePrimary.onclick = primaryAction || null;
+          }
+
+          if (noticeSecondary) {
+            noticeSecondary.textContent = secondaryText || "Đóng";
+            noticeSecondary.onclick = secondaryAction || null;
+            noticeSecondary.style.display = secondaryText ? "inline-flex" : "none";
+          }
+
+          noticePopup.classList.add("open");
+          noticePopup.setAttribute("aria-hidden", "false");
+        }
+
+        function closeNoticePopup() {
+          if (!noticePopup) return;
+          noticePopup.classList.remove("open");
+          noticePopup.setAttribute("aria-hidden", "true");
+        }
+
+        if (noticeCloseTop) {
+          noticeCloseTop.addEventListener("click", closeNoticePopup);
+        }
+
+        if (noticePopup) {
+          noticePopup.addEventListener("click", function (event) {
+            if (event.target === noticePopup) {
+              closeNoticePopup();
+            }
+          });
+        }
+
+        if (loginForm) {
+          loginForm.addEventListener("submit", function (event) {
+            if (!lookupCompleted && !isReturningUser && !initialErrorCode) {
+              event.preventDefault();
+              openNoticePopup({
+                title: "Tra cứu trước khi đăng nhập",
+                body: `
+                  <p><strong>Bạn là người đăng nhập lần đầu.</strong></p>
+                  <p>Hãy bấm <strong>Tra cứu username</strong> để tìm đúng username của bạn trước khi vào web.</p>
+                  <p>Sau khi click đúng username, hệ thống sẽ tự điền username và mật khẩu ban đầu.</p>
+                `,
+                primaryText: "Tra cứu username",
+                secondaryText: "Đóng",
+                primaryAction: goToLookupPage,
+                secondaryAction: closeNoticePopup,
+              });
+              return;
+            }
+          }, true);
+        }
+
+        if (!lookupCompleted && !isReturningUser && !initialErrorCode) {
+          if (!lookupRequested) {
+          openNoticePopup({
+            title: "Người dùng lần đầu cần tra cứu trước",
+            body: `
+              <p><strong>Bạn là người đăng nhập lần đầu.</strong></p>
+              <p>Hãy quay lại homepage, bấm <strong>Tra cứu username</strong>, nhập tên của bạn rồi click đúng username.</p>
+              <p>Sau đó hệ thống sẽ tự điền username và mật khẩu ban đầu cho bạn.</p>
+            `,
+            primaryText: "Tra cứu username",
+            secondaryText: "Đóng",
+            primaryAction: goToLookupPage,
+            secondaryAction: closeNoticePopup,
+          });
+          }
+        }
+
+        if (initialErrorCode === "WRONG_PASSWORD") {
+          openNoticePopup({
+            title: "Sai mật khẩu",
+            body: `
+              <p><strong>Có thể bạn nhập sai mật khẩu</strong> hoặc đã có người đổi mật khẩu account của bạn.</p>
+              <p>Hãy liên hệ Zalo để lấy lại hoặc xác nhận mật khẩu mới.</p>
+            `,
+            primaryText: "Liên hệ Zalo",
+            secondaryText: "Đóng",
+            primaryAction: function () {
+              window.open("https://zalo.me/0794674715", "_blank", "noopener,noreferrer");
+            },
+            secondaryAction: closeNoticePopup,
+          });
+        } else if (initialErrorCode === "ACCOUNT_NOT_FOUND") {
+          openNoticePopup({
+            title: "Không tìm thấy username",
+            body: `
+              <p><strong>Nguyên nhân thường gặp là lỗi đánh máy tên.</strong></p>
+              <p>Bạn có thể gõ sai tên, hoặc hệ thống lưu sai ký tự, ví dụ họ <strong>Phạm</strong> bị lưu thành <strong>Phan</strong>.</p>
+              <p>Hãy nhập chữ cái đầu tiên của tên để tra cứu.</p>
+              <p>Nếu bạn tên <strong>Phạm Thị Nhi</strong> nhưng lại tìm thấy <strong>Phan Thị Nhi</strong>, rất có thể đó là username đúng của bạn, hãy click để đăng nhập.</p>
+            `,
+            primaryText: "Tra cứu username",
+            secondaryText: "Đóng",
+            primaryAction: goToLookupPage,
+            secondaryAction: closeNoticePopup,
+          });
+        }
+
+        // Prevent double submit
+        let isSubmitting = false;
+        if (loginForm) {
+          loginForm.addEventListener("submit", (e) => {
+            if (isSubmitting) {
+              e.preventDefault();
+              return;
+            }
+            isSubmitting = true;
+            
+            // Show loading state
+            if (loginSubmitBtn) {
+              loginSubmitBtn.disabled = true;
+              document.getElementById("submitBtnText").style.display = "none";
+              document.getElementById("submitBtnLoading").style.display = "inline";
+            }
+
+            // Validate form
+            if (!accountInput.value.trim()) {
+              e.preventDefault();
+              accountInput.focus();
+              accountInput.style.borderColor = "#e74c3c";
+              isSubmitting = false;
+              if (loginSubmitBtn) {
+                loginSubmitBtn.disabled = false;
+                document.getElementById("submitBtnText").style.display = "inline";
+                document.getElementById("submitBtnLoading").style.display = "none";
+              }
+              return;
+            }
+
+            if (!passwordInput.value) {
+              e.preventDefault();
+              passwordInput.focus();
+              passwordInput.style.borderColor = "#e74c3c";
+              isSubmitting = false;
+              if (loginSubmitBtn) {
+                loginSubmitBtn.disabled = false;
+                document.getElementById("submitBtnText").style.display = "inline";
+                document.getElementById("submitBtnLoading").style.display = "none";
+              }
+              return;
+            }
+          });
+        }
+
+        // Reset error styles when user types
+        if (accountInput) {
+          accountInput.addEventListener("input", () => {
+            accountInput.style.borderColor = "";
+          });
+        }
+
+        if (passwordInput) {
+          passwordInput.addEventListener("input", () => {
+            passwordInput.style.borderColor = "";
+          });
+        }
+
+        // Password visibility toggle
         if (passwordInput && togglePasswordBtn) {
           togglePasswordBtn.addEventListener("click", function () {
             const showPassword = passwordInput.type === "password";
@@ -103,41 +354,6 @@
           });
         }
 
-        if (!popup || !closeBtn) {
-          return;
-        }
-
-        function openPopupIfNeeded() {
-          if (!hasLoginError && !fromGuideButton) {
-            return;
-          }
-          popup.classList.add("open");
-          popup.setAttribute("aria-hidden", "false");
-        }
-
-        function closePopup() {
-          popup.classList.remove("open");
-          popup.setAttribute("aria-hidden", "true");
-        }
-
-        openPopupIfNeeded();
-
-        closeBtn.addEventListener("click", function () {
-          closePopup();
-        });
-
-        if (closeTopBtn) {
-          closeTopBtn.addEventListener("click", function () {
-            closePopup();
-          });
-        }
-
-        // Close on overlay click
-        popup.addEventListener("click", function (e) {
-          if (e.target === popup) {
-            closePopup();
-          }
-        });
       })();
     </script>
 
@@ -171,28 +387,6 @@
         background: rgba(184, 78, 31, 0.08);
       }
 
-      .popup-card {
-        position: relative;
-      }
-
-      .popup-x-btn {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 32px;
-        height: 32px;
-        border: none;
-        border-radius: 8px;
-        background: transparent;
-        color: #7a5a44;
-        font-size: 1.45rem;
-        line-height: 1;
-        cursor: pointer;
-      }
-
-      .popup-x-btn:hover {
-        background: rgba(184, 78, 31, 0.08);
-      }
     </style>
 
     <%- include("../shared/contact-buttons") %>

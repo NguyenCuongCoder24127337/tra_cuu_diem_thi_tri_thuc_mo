@@ -9,7 +9,7 @@ function getHomeMetadata() {
 async function listStudentsForLookup() {
   const { data, error } = await supabase
     .from("result")
-    .select("full_name, username, account")
+    .select("full_name, username, account, must_change_password")
     .order("full_name", { ascending: true });
 
   if (error) {

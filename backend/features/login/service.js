@@ -17,7 +17,7 @@ async function login(account, password) {
   const student = await model.findStudentByAccountOrUsername(normalizedAccountInput);
 
   if (!student) {
-    return null;
+    return { student: null, errorCode: "ACCOUNT_NOT_FOUND" };
   }
 
   const accountValue = normalizeCredential(student.account || student.username || "");
@@ -43,7 +43,7 @@ async function login(account, password) {
       normalizedPasswordInput.toLowerCase() === usernameValue.toLowerCase());
 
   if (!isPasswordValid && !allowDefaultLogin) {
-    return null;
+    return { student: null, errorCode: "WRONG_PASSWORD" };
   }
 
   return {
@@ -54,6 +54,7 @@ async function login(account, password) {
     className: student.class_name,
     dob: student.dob,
     mustChangePassword: !!student.must_change_password,
+    errorCode: null,
   };
 }
 

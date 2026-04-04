@@ -7,7 +7,7 @@
     <main class="container auth-wrap">
       <section class="auth-card">
         <h1>Tạo tài khoản học sinh</h1>
-        <p class="muted">Hệ thống tự động tạo username/account theo HọTênKhôngDấu. Mật khẩu mặc định bằng account.</p>
+        <p class="muted">Hệ thống tự động tạo username theo HọTênKhôngDấu. Mật khẩu mặc định bằng username.</p>
 
         <% if (error) { %>
         <p class="alert"><%= error %></p>
@@ -17,7 +17,7 @@
         <p class="alert" style="background:#e8f8ec;border-color:#9ed4ad;color:#1d6b34;">
           Tạo thành công: <strong><%= created.fullName %></strong> - <strong><%= created.className %></strong><br/>
           Username: <strong><%= created.username %></strong><br/>
-          Account: <strong><%= created.account %></strong><br/>
+          Username (lưu trong cột account cũ): <strong><%= created.account %></strong><br/>
           Mật khẩu mặc định: <strong><%= created.defaultPassword %></strong>
         </p>
         <% } %>

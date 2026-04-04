@@ -1,19 +1,24 @@
-<div class="contact-buttons-wrap">
-  <!-- Feedback button -->
-  <button type="button" class="contact-btn feedback-btn" id="openFeedbackBtn" title="Gửi góp ý">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
-      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12h-8v-2h8v2zm0-4h-8V8h8v2z"/>
+<div class="support-menu-wrap">
+  <button type="button" class="support-menu-toggle" id="supportMenuToggle" aria-label="Menu hỗ trợ" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+      <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
     </svg>
-    <span>Góp ý phát triển web</span>
   </button>
 
-  <!-- Zalo button -->
-  <a href="https://zalo.me/0794674715" target="_blank" rel="noopener noreferrer" class="contact-btn zalo-btn" title="Liên hệ qua Zalo">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
-      <path d="M12 0C5.37 0 0 4.65 0 10.4c0 3.42 1.8 6.45 4.68 8.23v5.37c0 .72.6 1.3 1.32 1.3.36 0 .72-.15.96-.42l3.24-3.6h2.28c6.63 0 12-4.65 12-10.4C24 4.65 18.63 0 12 0zm-2.4 13.2h-2.4v-2.4h2.4v2.4zm3.6 0h-2.4v-2.4h2.4v2.4zm3.6 0h-2.4v-2.4h2.4v2.4z"/>
-    </svg>
-    <span>Zalo</span>
-  </a>
+  <div class="support-menu-popup" id="supportMenuPopup" aria-hidden="true">
+    <a href="https://zalo.me/0794674715" target="_blank" rel="noopener noreferrer" class="support-menu-item zalo-link">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M12 0C5.37 0 0 4.65 0 10.4c0 3.42 1.8 6.45 4.68 8.23v5.37c0 .72.6 1.3 1.32 1.3.36 0 .72-.15.96-.42l3.24-3.6h2.28c6.63 0 12-4.65 12-10.4C24 4.65 18.63 0 12 0zm-2.4 13.2h-2.4v-2.4h2.4v2.4zm3.6 0h-2.4v-2.4h2.4v2.4zm3.6 0h-2.4v-2.4h2.4v2.4z"/>
+      </svg>
+      <span>Zalo hỗ trợ</span>
+    </a>
+    <button type="button" class="support-menu-item feedback-link" id="openFeedbackFromMenu">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12h-8v-2h8v2zm0-4h-8V8h8v2z"/>
+      </svg>
+      <span>Góp ý phát triển</span>
+    </button>
+  </div>
 </div>
 
 <!-- Feedback modal -->
@@ -36,65 +41,58 @@
 
 <script>
   (function () {
-    const openBtn = document.getElementById("openFeedbackBtn");
-    const closeBtn = document.getElementById("closeFeedbackBtn");
+    const supportMenuToggle = document.getElementById("supportMenuToggle");
+    const supportMenuPopup = document.getElementById("supportMenuPopup");
+    const closeFeedbackBtn = document.getElementById("closeFeedbackBtn");
+    const openFeedbackFromMenu = document.getElementById("openFeedbackFromMenu");
     const modal = document.getElementById("feedbackModal");
     const overlay = document.getElementById("feedbackOverlay");
     const form = document.getElementById("feedbackForm");
 
-    if (!openBtn || !modal) return;
+    if (!supportMenuToggle || !supportMenuPopup) return;
 
-    // Close modal
-    const closeModal = () => {
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-      updateContactButtonsVisibility();
-    };
-
-    if (closeBtn) closeBtn.addEventListener("click", closeModal);
-    if (overlay) overlay.addEventListener("click", closeModal);
-
-    // Open modal - also update contact buttons
-    openBtn.addEventListener("click", () => {
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-      updateContactButtonsVisibility();
+    // Toggle support menu
+    supportMenuToggle.addEventListener("click", () => {
+      const isOpen = supportMenuPopup.getAttribute("aria-hidden") === "false";
+      if (isOpen) {
+        supportMenuPopup.setAttribute("aria-hidden", "true");
+        supportMenuToggle.setAttribute("aria-expanded", "false");
+      } else {
+        supportMenuPopup.setAttribute("aria-hidden", "false");
+        supportMenuToggle.setAttribute("aria-expanded", "true");
+      }
     });
 
-    // Update contact buttons visibility based on any modal state
-    function updateContactButtonsVisibility() {
-      const contactButtonsWrap = document.querySelector(".contact-buttons-wrap");
-      if (!contactButtonsWrap) return;
-
-      // Check if ANY modal is open
-      const feedbackModalOpen = document.getElementById("feedbackModal")?.classList.contains("open") || false;
-      const firstLoginPopupOpen = document.getElementById("firstLoginPopup")?.classList.contains("open") || false;
-      const homeLoginGuidePopupOpen = document.getElementById("homeLoginGuidePopup")?.classList.contains("open") || false;
-      const anyModalOpen = feedbackModalOpen || firstLoginPopupOpen || homeLoginGuidePopupOpen;
-
-      if (anyModalOpen) {
-        contactButtonsWrap.style.opacity = "0";
-        contactButtonsWrap.style.pointerEvents = "none";
-      } else {
-        contactButtonsWrap.style.opacity = "1";
-        contactButtonsWrap.style.pointerEvents = "auto";
+    // Close menu on click outside
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".support-menu-wrap")) {
+        supportMenuPopup.setAttribute("aria-hidden", "true");
+        supportMenuToggle.setAttribute("aria-expanded", "false");
       }
+    });
+
+    // Feedback button
+    if (openFeedbackFromMenu) {
+      openFeedbackFromMenu.addEventListener("click", () => {
+        supportMenuPopup.setAttribute("aria-hidden", "true");
+        supportMenuToggle.setAttribute("aria-expanded", "false");
+        if (modal) {
+          modal.classList.add("open");
+          modal.setAttribute("aria-hidden", "false");
+        }
+      });
     }
 
-    // Also observe document for class changes on any modal
-    const globalObserver = new MutationObserver(() => {
-      updateContactButtonsVisibility();
-    });
+    // Close feedback modal
+    const closeModal = () => {
+      if (modal) {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      }
+    };
 
-    // Observe the document for any class attribute changes
-    globalObserver.observe(document.body, {
-      attributes: true,
-      subtree: true,
-      attributeFilter: ["class"],
-    });
-
-    // Initial state
-    updateContactButtonsVisibility();
+    if (closeFeedbackBtn) closeFeedbackBtn.addEventListener("click", closeModal);
+    if (overlay) overlay.addEventListener("click", closeModal);
 
     // Handle form submission
     if (form) {

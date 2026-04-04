@@ -11,7 +11,7 @@ router.get("/login", (req, res) => {
   const createdStudent = req.session.createdStudent || null;
   delete req.session.createdStudent;
 
-  return res.render("login/login", { error: null, createdStudent });
+  return res.render("login/login", { error: null, errorCode: null, createdStudent });
 });
 
 router.post("/login", async (req, res) => {
@@ -21,19 +21,31 @@ router.post("/login", async (req, res) => {
 
     if (!account || !password) {
       return res.render("login/login", {
-        error: "Vui lòng nhập đầy đủ account và mật khẩu.",
+        error: "Vui lòng nhập đầy đủ username và mật khẩu.",
+        errorCode: "VALIDATION_ERROR",
         createdStudent: null,
       });
     }
 
-    const student = await service.login(account, password);
+    const result = await service.login(account, password);
 
-    if (!student) {
+    if (!result || result.errorCode) {
+      const errorCode = result?.errorCode || "UNKNOWN_LOGIN_ERROR";
+      const error =
+        errorCode === "ACCOUNT_NOT_FOUND"
+          ? "Tài khoản không tồn tại hoặc bạn nhập sai username."
+          : errorCode === "WRONG_PASSWORD"
+            ? "Mật khẩu không đúng hoặc username đã được đổi mật khẩu."
+            : "Tài khoản hoặc mật khẩu không tồn tại.";
+
       return res.render("login/login", {
-        error: "Tài khoản hoặc mật khẩu không tồn tại.",
+        error,
+        errorCode,
         createdStudent: null,
       });
     }
+
+    const student = result;
 
     req.session.user = student;
 
@@ -41,6 +53,7 @@ router.post("/login", async (req, res) => {
       if (saveError) {
         return res.render("login/login", {
           error: "Khong the luu phien dang nhap. Vui long thu lai.",
+          errorCode: "SESSION_SAVE_ERROR",
           createdStudent: null,
         });
       }
@@ -55,6 +68,7 @@ router.post("/login", async (req, res) => {
     console.error("Login error:", error);
     return res.render("login/login", {
       error: "Có lỗi hệ thống. Vui lòng thử lại.",
+      errorCode: "SYSTEM_ERROR",
       createdStudent: null,
     });
   }

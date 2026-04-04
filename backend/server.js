@@ -10,7 +10,6 @@ const loginApi = require("./features/login/api");
 const changePasswordApi = require("./features/change-password/api");
 const logoutApi = require("./features/logout/api");
 const dashboardApi = require("./features/dashboard/api");
-const adminCreateStudentApi = require("./features/admin-create-student/api");
 const feedbackApi = require("./features/feedback/api");
 
 async function bootstrap() {
@@ -22,7 +21,25 @@ async function bootstrap() {
   }
 
   const port = Number(process.env.PORT || 3000);
-  const { client: redisClient, store: sessionStore } = await createSessionStore(process.env.REDIS_URL);
+  let redisClient = null;
+  let sessionStore = null;
+
+  try {
+    const result = await createSessionStore(process.env.REDIS_URL);
+    redisClient = result.client;
+    sessionStore = result.store;
+    if (result.isMemoryStore) {
+      console.warn("Redis URL not set. Using in-memory session store for local development.");
+    }
+  } catch (error) {
+    if (process.env.NODE_ENV === "production") {
+      throw error;
+    }
+
+    console.warn("Redis unavailable. Falling back to in-memory session store for local development.");
+    const session = require("express-session");
+    sessionStore = new session.MemoryStore();
+  }
 
   const app = createApp({
     viewsPath: path.join(__dirname, "..", "frontend", "ui"),
@@ -37,7 +54,6 @@ async function bootstrap() {
   app.use(changePasswordApi);
   app.use(logoutApi);
   app.use(dashboardApi);
-  app.use(adminCreateStudentApi);
   app.use(feedbackApi);
 
   app.use((req, res) => {

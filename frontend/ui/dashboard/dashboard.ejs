@@ -11,7 +11,7 @@
           <p><strong>Họ và tên:</strong> <%= student.fullName %></p>
           <p><strong>Lớp:</strong> <%= student.className %></p>
           <p><strong>Ngày sinh:</strong> <%= student.dob || "Chưa cập nhật" %></p>
-          <p><strong>Account:</strong> <%= student.account || student.username %></p>
+          <p><strong>Username:</strong> <%= student.account || student.username %></p>
         </div>
       </section>
 
@@ -64,5 +64,11 @@
     </main>
 
     <%- include("../shared/contact-buttons") %>
+    <script>
+      (function () {
+        localStorage.setItem("returningUser", "1");
+        localStorage.setItem("lookupCompleted", "1");
+      })();
+    </script>
   </body>
 </html>

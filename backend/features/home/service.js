@@ -19,6 +19,10 @@ function normalizeVietnamese(text) {
     .trim();
 }
 
+function toCanonicalKey(text) {
+  return normalizeVietnamese(text).replace(/\s+/g, "");
+}
+
 function getFirstName(fullName) {
   const normalized = normalizeVietnamese(fullName);
   if (!normalized) {
@@ -29,44 +33,11 @@ function getFirstName(fullName) {
   return parts[parts.length - 1] || "";
 }
 
-function levenshteinDistance(a, b) {
-  const source = String(a || "");
-  const target = String(b || "");
-
-  if (!source.length) {
-    return target.length;
-  }
-  if (!target.length) {
-    return source.length;
-  }
-
-  const previous = new Array(target.length + 1);
-  const current = new Array(target.length + 1);
-
-  for (let j = 0; j <= target.length; j += 1) {
-    previous[j] = j;
-  }
-
-  for (let i = 1; i <= source.length; i += 1) {
-    current[0] = i;
-    for (let j = 1; j <= target.length; j += 1) {
-      const cost = source[i - 1] === target[j - 1] ? 0 : 1;
-      current[j] = Math.min(
-        previous[j] + 1,
-        current[j - 1] + 1,
-        previous[j - 1] + cost
-      );
-    }
-
-    for (let j = 0; j <= target.length; j += 1) {
-      previous[j] = current[j];
-    }
-  }
-
-  return previous[target.length];
+function isFullNameQuery(query) {
+  return String(query || "").trim().split(" ").filter(Boolean).length >= 2;
 }
 
-function matchScore(query, firstName) {
+function firstNameMatchScore(query, firstName) {
   if (!query || !firstName) {
     return null;
   }
@@ -75,23 +46,8 @@ function matchScore(query, firstName) {
     return 0;
   }
 
-  if (firstName.startsWith(query)) {
-    return 1;
-  }
-
-  if (query.startsWith(firstName)) {
-    return 2;
-  }
-
-  if (firstName.includes(query)) {
-    return 3;
-  }
-
-  const distance = levenshteinDistance(firstName, query);
-  const allowedDistance = query.length >= 5 ? 2 : 1;
-
-  if (distance <= allowedDistance) {
-    return 4 + distance;
+  if (query.length === 1) {
+    return firstName.startsWith(query) ? 1 : null;
   }
 
   return null;
@@ -99,11 +55,13 @@ function matchScore(query, firstName) {
 
 async function lookupAccountsByFirstName(rawKeyword) {
   const keyword = normalizeVietnamese(rawKeyword);
+  const canonicalKeyword = toCanonicalKey(rawKeyword);
   if (!keyword) {
     return [];
   }
 
   const students = await model.listStudentsForLookup();
+  const fullNameMode = isFullNameQuery(keyword);
   const exactMatches = [];
 
   for (const item of students) {
@@ -113,10 +71,12 @@ async function lookupAccountsByFirstName(rawKeyword) {
     }
 
     const normalizedFullName = normalizeVietnamese(item.full_name);
-    if (normalizedFullName && normalizedFullName === keyword) {
+    const canonicalFullName = toCanonicalKey(item.full_name);
+    if (canonicalFullName && canonicalFullName === canonicalKeyword) {
       exactMatches.push({
         fullName: item.full_name,
         username,
+        mustChangePassword: !!item.must_change_password,
         matchType: "exact",
       });
     }
@@ -129,11 +89,15 @@ async function lookupAccountsByFirstName(rawKeyword) {
     return exactMatches.slice(0, 30);
   }
 
+  if (fullNameMode) {
+    return [];
+  }
+
   const matched = [];
 
   for (const item of students) {
     const firstName = getFirstName(item.full_name);
-    const score = matchScore(keyword, firstName);
+    const score = firstNameMatchScore(keyword, firstName);
     if (score === null) {
       continue;
     }
@@ -146,6 +110,7 @@ async function lookupAccountsByFirstName(rawKeyword) {
     matched.push({
       fullName: item.full_name,
       username,
+      mustChangePassword: !!item.must_change_password,
       score,
     });
   }
@@ -160,6 +125,7 @@ async function lookupAccountsByFirstName(rawKeyword) {
   return matched.slice(0, 30).map((item) => ({
     fullName: item.fullName,
     username: item.username,
+    mustChangePassword: item.mustChangePassword,
     matchType: "fuzzy",
   }));
 }

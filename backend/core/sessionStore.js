@@ -1,7 +1,16 @@
 const { createClient } = require("redis");
 const { RedisStore } = require("connect-redis");
+const session = require("express-session");
 
 async function createSessionStore(redisUrl) {
+  if (!redisUrl) {
+    return {
+      client: null,
+      store: new session.MemoryStore(),
+      isMemoryStore: true,
+    };
+  }
+
   const client = createClient({
     url: redisUrl,
     socket: {
@@ -15,11 +24,11 @@ async function createSessionStore(redisUrl) {
     },
   });
 
+  await client.connect();
+
   client.on("error", (error) => {
     console.error("Redis session error:", error.message);
   });
-
-  await client.connect();
 
   return {
     client,
@@ -27,6 +36,7 @@ async function createSessionStore(redisUrl) {
       client,
       prefix: "tra-cuu-diem:sess:",
     }),
+    isMemoryStore: false,
   };
 }
 

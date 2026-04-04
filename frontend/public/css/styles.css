@@ -421,6 +421,21 @@ body.homepage .menu > .btn {
   border-radius: 14px;
   border: 1px solid #ead5c4;
   background: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.lookup-item:hover {
+  border-color: #c9693a;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(184, 78, 31, 0.15);
+  transform: translateY(-2px);
+}
+
+.lookup-item:focus-visible {
+  outline: 2px solid #b84e1f;
+  outline-offset: 2px;
 }
 
 .lookup-fullname {
@@ -432,6 +447,13 @@ body.homepage .menu > .btn {
 .lookup-username {
   margin: 4px 0 0;
   color: #5b473a;
+}
+
+.lookup-hint {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  color: #b84e1f;
+  font-weight: 600;
 }
 
 .card {
@@ -1111,73 +1133,121 @@ td {
     padding: 9px 12px;
   }
 
-  .contact-buttons-wrap {
-    right: 12px;
-    bottom: 12px;
-    gap: 8px;
-  }
-
-  .contact-btn {
-    min-width: 104px;
-    height: 40px;
-    padding: 0 12px;
-    font-size: 0.88rem;
-  }
-
   .card,
   .leader-item {
     padding: 12px;
   }
 }
 
-/* Contact buttons widget */
-.contact-buttons-wrap {
+/* Support Menu Widget - Compact & Non-intrusive */
+.support-menu-wrap {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 40;
-}
-
-.contact-btn {
+  right: 16px;
+  bottom: 16px;
+  z-index: 39;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-width: 120px;
-  width: auto;
-  padding: 0 14px;
-  height: 44px;
-  border-radius: 22px;
+}
+
+.support-menu-toggle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  white-space: nowrap;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
-}
-
-.contact-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-}
-
-.contact-btn svg {
-  flex-shrink: 0;
-}
-
-.zalo-btn {
-  background: linear-gradient(135deg, #0084ff, #0073e6);
-  color: white;
-}
-
-.feedback-btn {
   background: linear-gradient(135deg, #b84e1f, #d76b37);
   color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(184, 78, 31, 0.3);
+  transition: all 0.2s ease;
+}
+
+.support-menu-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(184, 78, 31, 0.4);
+}
+
+.support-menu-toggle:active {
+  transform: scale(0.95);
+}
+
+.support-menu-popup {
+  position: absolute;
+  bottom: 64px;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e0c4ad;
+  box-shadow: 0 8px 24px rgba(48, 24, 11, 0.2);
+  overflow: hidden;
+  min-width: 200px;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.support-menu-popup[aria-hidden="true"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.support-menu-popup[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.support-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2b2019;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+}
+
+.support-menu-item:hover {
+  background: #f4efe8;
+}
+
+.support-menu-item:not(:last-child) {
+  border-bottom: 1px solid #ebe0d3;
+}
+
+.support-menu-item svg {
+  flex-shrink: 0;
+  color: #b84e1f;
+}
+
+@media (max-width: 740px) {
+  .support-menu-wrap {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .support-menu-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .support-menu-popup {
+    min-width: 180px;
+    bottom: 56px;
+  }
+
+  .support-menu-item {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
 }
 
 /* Feedback modal */
@@ -1196,6 +1266,121 @@ td {
 .feedback-modal.open {
   opacity: 1;
   visibility: visible;
+}
+
+/* New Hero Buttons Layout */
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.hero-buttons .btn {
+  margin-top: 0;
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+}
+
+/* Lookup Close Button */
+.lookup-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #7a5a44;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.lookup-close-btn:hover {
+  background: rgba(184, 78, 31, 0.1);
+}
+
+#lookupSection {
+  position: relative;
+}
+
+/* Popup Content List Styling */
+.popup-content {
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.popup-content p {
+  margin: 8px 0;
+  color: var(--ink-main);
+}
+
+.popup-content p strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #7f2f08;
+}
+
+.popup-content ul {
+  margin: 6px 0 12px 20px;
+  padding: 0;
+  list-style: disc;
+  color: #5b473a;
+}
+
+.popup-content ul li {
+  margin: 4px 0;
+}
+
+/* Inline link button in popup */
+.inline-link-btn {
+  display: inline;
+  border: none;
+  background: none;
+  color: #b84e1f;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  transition: color 0.2s ease;
+}
+
+.inline-link-btn:hover {
+  color: #94370f;
+  text-decoration: underline wavy;
+}
+
+.inline-link-btn:focus {
+  outline: 2px solid #b84e1f;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (max-width: 740px) {
+  .hero-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .lookup-card {
+    position: relative;
+    padding-top: 36px;
+  }
+
+  .lookup-close-btn {
+    top: 8px;
+    right: 8px;
+  }
 }
 
 .feedback-modal-overlay {
@@ -1295,18 +1480,24 @@ td {
 
 /* Mobile responsive */
 @media (max-width: 480px) {
-  .contact-buttons-wrap {
-    right: 12px;
-    bottom: 12px;
-    gap: 8px;
+  .support-menu-wrap {
+    right: 10px;
+    bottom: 10px;
   }
 
-  .contact-btn {
-    min-width: 156px;
-    width: auto;
-    padding: 0 12px;
-    height: 40px;
-    font-size: 0.8rem;
+  .support-menu-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .support-menu-popup {
+    min-width: 160px;
+    bottom: 52px;
+  }
+
+  .support-menu-item {
+    padding: 9px 10px;
+    font-size: 0.85rem;
   }
 
   .feedback-modal-card {
