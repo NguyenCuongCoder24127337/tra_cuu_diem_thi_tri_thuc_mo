@@ -2,7 +2,7 @@
 <html lang="vi">
   <%- include("../shared/head", { title: "Đăng nhập" }) %>
   <body>
-    <%- include("../shared/header", { user: null }) %>
+    <%- include("../shared/header", { user: null, hideLoginButton: true }) %>
 
     <main class="container auth-wrap">
       <section class="auth-card">
@@ -23,11 +23,11 @@
           <small style="display: block; margin-top: 6px;">
             <strong>Gợi ý:</strong>
             <% if (errorCode === 'WRONG_PASSWORD') { %>
-              Có thể bạn nhập sai mật khẩu hoặc đã có người đổi mật khẩu account của bạn. Liên hệ Zalo để lấy lại.
+              Có thể bạn nhập sai mật khẩu hoặc đã có người đổi mật khẩu account của bạn. Liên hệ Zalo (nhấn nút <strong>3 chấm</strong> ở góc phải) để lấy lại.
             <% } else if (errorCode === 'ACCOUNT_NOT_FOUND') { %>
               Có thể bạn nhập nhầm tên, hoặc hệ thống lưu tên bị sai ký tự, ví dụ họ <strong>Phạm</strong> bị lưu thành <strong>Phan</strong>.
             <% } else { %>
-              Nếu vấn đề tiếp tục, liên hệ Zalo hỗ trợ.
+              Nếu vấn đề tiếp tục, liên hệ Zalo (nhấn nút <strong>3 chấm</strong> ở góc phải) để được hỗ trợ.
             <% } %>
           </small>
         </p>
@@ -41,6 +41,7 @@
               name="account" 
               id="accountInput"
               placeholder="Ví dụ: BuiQuangNhat"
+              value="<%= previousAccount || '' %>"
               required 
               minlength="2"
               autocomplete="off"
@@ -260,7 +261,7 @@
             title: "Sai mật khẩu",
             body: `
               <p><strong>Có thể bạn nhập sai mật khẩu</strong> hoặc đã có người đổi mật khẩu account của bạn.</p>
-              <p>Hãy liên hệ Zalo để lấy lại hoặc xác nhận mật khẩu mới.</p>
+              <p>Hãy liên hệ Zalo bằng cách nhấn nút <strong>3 chấm</strong> ở góc phải để lấy lại hoặc xác nhận mật khẩu mới.</p>
             `,
             primaryText: "Liên hệ Zalo",
             secondaryText: "Đóng",

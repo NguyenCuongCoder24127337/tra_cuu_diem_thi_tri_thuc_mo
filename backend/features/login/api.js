@@ -11,7 +11,12 @@ router.get("/login", (req, res) => {
   const createdStudent = req.session.createdStudent || null;
   delete req.session.createdStudent;
 
-  return res.render("login/login", { error: null, errorCode: null, createdStudent });
+  return res.render("login/login", {
+    error: null,
+    errorCode: null,
+    createdStudent,
+    previousAccount: "",
+  });
 });
 
 router.post("/login", async (req, res) => {
@@ -24,6 +29,7 @@ router.post("/login", async (req, res) => {
         error: "Vui lòng nhập đầy đủ username và mật khẩu.",
         errorCode: "VALIDATION_ERROR",
         createdStudent: null,
+        previousAccount: account,
       });
     }
 
@@ -42,6 +48,7 @@ router.post("/login", async (req, res) => {
         error,
         errorCode,
         createdStudent: null,
+        previousAccount: account,
       });
     }
 
@@ -55,6 +62,7 @@ router.post("/login", async (req, res) => {
           error: "Khong the luu phien dang nhap. Vui long thu lai.",
           errorCode: "SESSION_SAVE_ERROR",
           createdStudent: null,
+          previousAccount: account,
         });
       }
 
@@ -70,6 +78,7 @@ router.post("/login", async (req, res) => {
       error: "Có lỗi hệ thống. Vui lòng thử lại.",
       errorCode: "SYSTEM_ERROR",
       createdStudent: null,
+      previousAccount: account,
     });
   }
 });

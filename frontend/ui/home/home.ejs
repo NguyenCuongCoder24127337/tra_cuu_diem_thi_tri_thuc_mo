@@ -235,7 +235,7 @@
                   <small>• Có thể bạn nhập nhầm tên, hoặc hệ thống lưu tên bị sai ký tự, ví dụ họ <strong>Phạm</strong> bị lưu thành <strong>Phan</strong>.</small><br/>
                   <small>• Hãy nhập chữ cái đầu tiên của tên để tra cứu.</small><br/>
                   <small>• Nếu bạn tên <strong>Phạm Thị Nhi</strong> nhưng lại thấy <strong>Phan Thị Nhi</strong>, rất có thể đó là username đúng của bạn, hãy click để đăng nhập.</small><br/>
-                  <small>• Nếu vẫn không thấy, liên hệ Zalo để kiểm tra dữ liệu.</small>
+                  <small>• Nếu vẫn không thấy, liên hệ Zalo (nhấn nút <strong>3 chấm</strong> ở góc phải) để kiểm tra dữ liệu.</small>
                 `;
             }
             return;
@@ -276,13 +276,22 @@
                     <p><strong>Tài khoản ${escapeHtml(fullname || username)} đã đổi mật khẩu.</strong></p>
                     <p>Không thể tự đăng nhập bằng username cũ.</p>
                     <p>Có thể đã có người khác đổi mật khẩu account của bạn.</p>
-                    <p>Nếu đây là tài khoản của bạn, hãy liên hệ Zalo để lấy lại hoặc xác nhận mật khẩu mới.</p>
+                    <p>Nếu đây là tài khoản của bạn, hãy liên hệ Zalo (nhấn nút <strong>3 chấm</strong> ở góc phải) để lấy lại hoặc xác nhận mật khẩu mới.</p>
                     <p>Nếu bạn nghĩ dữ liệu bị sai, hãy nhập lại chữ cái đầu hoặc tên gần đúng để tra cứu đúng username.</p>
                   `,
                   primaryText: "Tra cứu lại",
                   secondaryText: "Đóng",
                   primaryAction: function () {
                     closeHomeNoticePopup();
+                    if (lookupForm) {
+                      lookupForm.reset();
+                    }
+                    if (lookupStatus) {
+                      lookupStatus.textContent = "";
+                    }
+                    if (lookupResults) {
+                      lookupResults.innerHTML = "";
+                    }
                     showLookupSection();
                   },
                   secondaryAction: closeHomeNoticePopup,

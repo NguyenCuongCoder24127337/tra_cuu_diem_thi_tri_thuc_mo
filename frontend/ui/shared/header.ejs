@@ -15,7 +15,9 @@
       <% if (typeof homepage !== "undefined" && homepage) { %>
       <span class="header-blessing">Hiểu mình - Chọn Nghề - Sáng tương lai</span>
       <% } else { %>
+      <% if (!(typeof hideLoginButton !== "undefined" && hideLoginButton)) { %>
       <a href="/login" class="btn btn-primary">Đăng nhập</a>
+      <% } %>
       <% } %>
       <% } %>
     </nav>
