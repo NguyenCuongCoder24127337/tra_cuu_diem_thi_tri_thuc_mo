@@ -170,12 +170,14 @@
                 <p>Nếu chưa thấy, hãy thử <strong>chữ cái đầu</strong> hoặc tên gần đúng vì dữ liệu có thể bị sai ký tự khi nhập.</p>
               `,
               primaryText: "Đi tra cứu",
-              secondaryText: "",
+              secondaryText: "Đóng",
               primaryAction: function () {
                 closeHomeNoticePopup();
                 showLookupSection();
               },
-              secondaryAction: null,
+              secondaryAction: function () {
+                closeHomeNoticePopup();
+              },
             });
           });
         }
