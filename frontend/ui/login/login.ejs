@@ -103,7 +103,7 @@
         <div id="loginNoticeBody" class="popup-content"></div>
         <div class="popup-buttons">
           <button type="button" class="btn btn-primary" id="loginNoticePrimary">Đã hiểu</button>
-          <button type="button" class="btn btn-outline" id="loginNoticeSecondary">Đóng</button>
+          <button type="button" class="btn btn-outline" id="loginNoticeSecondary">Không phải lần đầu, đăng nhập luôn</button>
         </div>
       </section>
     </div>
@@ -128,7 +128,7 @@
         const autoLoginAccountKey = "autoLoginAccount";
         const autoLoginPasswordKey = "autoLoginPassword";
         const lookupCompleted = localStorage.getItem(lookupCompletedKey) === "1";
-        const isReturningUser = localStorage.getItem(returningUserKey) === "1";
+        let isReturningUser = localStorage.getItem(returningUserKey) === "1";
         const autofillRequested = new URLSearchParams(window.location.search).get("autofill") === "1";
         const lookupRequested = new URLSearchParams(window.location.search).get("lookup") === "1";
 
@@ -206,6 +206,15 @@
           noticePopup.setAttribute("aria-hidden", "true");
         }
 
+        function allowDirectLogin() {
+          localStorage.setItem(returningUserKey, "1");
+          isReturningUser = true;
+          closeNoticePopup();
+          if (accountInput) {
+            accountInput.focus();
+          }
+        }
+
         if (noticeCloseTop) {
           noticeCloseTop.addEventListener("click", closeNoticePopup);
         }
@@ -230,9 +239,9 @@
                   <p>Sau khi click đúng username, hệ thống sẽ tự điền username và mật khẩu ban đầu.</p>
                 `,
                 primaryText: "Tra cứu username",
-                secondaryText: "Đóng",
+                secondaryText: "Không phải lần đầu, đăng nhập luôn",
                 primaryAction: goToLookupPage,
-                secondaryAction: closeNoticePopup,
+                secondaryAction: allowDirectLogin,
               });
               return;
             }
@@ -249,9 +258,9 @@
               <p>Sau đó hệ thống sẽ tự điền username và mật khẩu ban đầu cho bạn.</p>
             `,
             primaryText: "Tra cứu username",
-            secondaryText: "Đóng",
+            secondaryText: "Không phải lần đầu, đăng nhập luôn",
             primaryAction: goToLookupPage,
-            secondaryAction: closeNoticePopup,
+            secondaryAction: allowDirectLogin,
           });
           }
         }

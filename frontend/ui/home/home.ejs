@@ -71,7 +71,7 @@
         </div>
         <div class="popup-buttons">
           <button type="button" class="btn btn-primary" id="goLookupBtn">Đi tra cứu</button>
-          <button type="button" class="btn btn-outline" id="dismissHomeNoticeBtn">Đóng</button>
+          <button type="button" class="btn btn-outline" id="dismissHomeNoticeBtn">Đăng nhập luôn</button>
         </div>
       </section>
     </div>
@@ -118,8 +118,13 @@
             goLookupBtn.onclick = primaryAction || null;
           }
           if (dismissHomeNoticeBtn) {
-            dismissHomeNoticeBtn.textContent = secondaryText || "Đóng";
-            dismissHomeNoticeBtn.onclick = secondaryAction || null;
+            dismissHomeNoticeBtn.textContent = secondaryText || "Không phải lần đầu, đăng nhập luôn";
+            dismissHomeNoticeBtn.onclick =
+              secondaryAction ||
+              function () {
+                localStorage.setItem(returningUserKey, "1");
+                window.location.href = "/login";
+              };
             dismissHomeNoticeBtn.style.display = secondaryText ? "inline-flex" : "none";
           }
           homeNoticePopup.classList.add("open");
@@ -170,13 +175,14 @@
                 <p>Nếu chưa thấy, hãy thử <strong>chữ cái đầu</strong> hoặc tên gần đúng vì dữ liệu có thể bị sai ký tự khi nhập.</p>
               `,
               primaryText: "Đi tra cứu",
-              secondaryText: "Đóng",
+              secondaryText: "Không phải lần đầu, đăng nhập luôn",
               primaryAction: function () {
                 closeHomeNoticePopup();
                 showLookupSection();
               },
               secondaryAction: function () {
-                closeHomeNoticePopup();
+                localStorage.setItem(returningUserKey, "1");
+                window.location.href = "/login";
               },
             });
           });
@@ -190,12 +196,6 @@
           goLookupBtn.addEventListener("click", function () {
             closeHomeNoticePopup();
             showLookupSection();
-          });
-        }
-
-        if (dismissHomeNoticeBtn) {
-          dismissHomeNoticeBtn.addEventListener("click", function () {
-            closeHomeNoticePopup();
           });
         }
 
